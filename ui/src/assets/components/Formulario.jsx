@@ -113,7 +113,7 @@ function formularioInscricao() {
                       <input type="radio" name="racaEtnia" id="amarelo" value="Amarelo" onChange={valorInput} /> Amarelo;<br />
                       <input type="radio" name="racaEtnia" id="indigena" value="Indígena" onChange={valorInput} /> Indígena;<br />
                       <input type="radio" name="racaEtnia" id="naoDeclarar" value="NaoDeclarar" onChange={valorInput} /> Prefiro não declarar;<br />
-                      <input type="radio" name="racaEtnia" id="outroRaca" value="Outro" /> Outro.<br onChange={valorInput} />
+                      <input type="radio" name="racaEtnia" id="outroRaca" value="Outro" onChange={valorInput} /> Outro.<br />
                       <input type="text" name="outroRacaEtniaEspecificar" id="outroRacaEtniaEspecificar" placeholder="Por favor, especifique" onChange={valorInput} /><br /><br />
                   </div>
 
