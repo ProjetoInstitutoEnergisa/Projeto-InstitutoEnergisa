@@ -11,7 +11,7 @@ function formularioInscricao() {
       passaport: '',
       city: '',
       residence: '',
-      phpne: '',
+      phone: '',
       whats: '',
       email: '',
       genero: '',
