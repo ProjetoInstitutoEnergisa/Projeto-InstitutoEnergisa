@@ -16,10 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-<<<<<<< HEAD
     "express-validator": "^7.1.0",
-=======
->>>>>>> 7442b4d721d26c616e557c153a84a5b9fad8c1be
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
