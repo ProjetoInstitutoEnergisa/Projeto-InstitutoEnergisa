@@ -1,0 +1,6 @@
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=SecretAmd01@
+DB_NAME=cultural_projects
+DB_PORT=3306
+PORT=3000
