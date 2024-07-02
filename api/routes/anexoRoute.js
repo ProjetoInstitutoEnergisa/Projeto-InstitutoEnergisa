@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 const {
   listarAnexos,
@@ -16,3 +17,23 @@ anexoRoute.put('/:id', atualizarAnexo);
 anexoRoute.delete('/:id', deletarAnexo);
 
 module.exports = anexoRoute;
+=======
+const express = require('express');
+const {
+  listarAnexos,
+  obterAnexoPorId,
+  criarAnexo,
+  atualizarAnexo,
+  deletarAnexo
+} = require('../controller/anexoController');
+
+const anexoRoute = express.Router();
+
+anexoRoute.get('/', listarAnexos);
+anexoRoute.get('/:id', obterAnexoPorId);
+anexoRoute.post('/', criarAnexo);
+anexoRoute.put('/:id', atualizarAnexo);
+anexoRoute.delete('/:id', deletarAnexo);
+
+module.exports = anexoRoute;
+>>>>>>> 7442b4d721d26c616e557c153a84a5b9fad8c1be
