@@ -1,15 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import Modal from 'react-modal';
-import {
-    Container,
-    Title,
-    PainelContainer,
-    PainelHeader,
-    PainelButton,
-    PainelCard,
-    Painel,
-    SearchInput
-} from './styles';
+import { Container, Title, PainelContainer, PainelHeader, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../SoliciteCard';
 
 // Define the app element for accessibility
@@ -62,7 +53,17 @@ const Content = () => {
                     <PainelHeader>
                         Suas Solicitações
                     </PainelHeader>
+
+                    <PainelButton>
+                    <SearchInput
+                        type="text"
+                        placeholder="Buscar por nome"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    </PainelButton>
                 </Painel>
+                
 
                 <PainelCard>
                     {filteredSolicitations.map((solicitation, index) => (

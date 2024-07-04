@@ -15,15 +15,15 @@ const ProjetoAcao = sequelize.define('Projeto', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  descricao: {
+  descricao_proposta: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  pdf_descricao: {
+  fotos_imagens: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  cronograma: {
+  duvidas: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

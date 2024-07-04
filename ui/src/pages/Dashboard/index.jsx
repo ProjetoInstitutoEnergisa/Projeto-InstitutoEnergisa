@@ -1,14 +1,26 @@
 import React from 'react';
-import Content from "../../components/Content";
 import LayoutAdmin from "../../components/LayoutAdmin";
-import { Container } from "./styles";
+import ContentAdmin from "../../components/ContentAdmin";
 
-const Dashboard = () => {
+import { ContainerHeader, Title, Button } from "./styles";
+
+const Dashboard = ( ) => {
     return (
         <LayoutAdmin>
-            <Container>
-                <Content/>
-            </Container>
+            <ContentAdmin>
+
+                <ContainerHeader>
+                    <Title>
+                        Dashboard
+                    </Title>
+
+                    <Button>
+                        Exportar Relatórios
+                    </Button>
+
+                </ContainerHeader>
+
+            </ContentAdmin>
         </LayoutAdmin>
     );
 };

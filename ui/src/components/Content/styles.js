@@ -32,6 +32,7 @@ export const Painel = styled.div`
     justify-content: space-between;
 `;
 
+
 export const PainelCard = styled.div`
     margin-top: 15px;
 `;
@@ -44,8 +45,6 @@ export const PainelHeader = styled.div`
 `;
 
 export const PainelButton = styled.div`
-    margin-right: 35px;
-    margin-top: 20px;
     display: flex;
     align-items: center;
 

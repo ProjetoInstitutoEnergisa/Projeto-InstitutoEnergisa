@@ -1,13 +1,13 @@
 import React from 'react';
-import Content from "../../components/Content";
 import LayoutAdmin from "../../components/LayoutAdmin";
 import { Container } from "./styles";
+import ContentAdmin from '../../components/ContentAdmin';
 
 const Home = () => {
     return (
         <LayoutAdmin>
             <Container>
-                <Content/>
+                <ContentAdmin />
             </Container>
         </LayoutAdmin>
     );

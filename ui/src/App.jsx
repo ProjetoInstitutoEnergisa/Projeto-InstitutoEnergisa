@@ -11,7 +11,7 @@ import Request from "./pages/Request";
 const App = () => {
     return (
         <>
-            <GlobalStyles />
+         <GlobalStyles />
             <AuthProvider>
                 <BrowserRouter>
                     <Routes>
