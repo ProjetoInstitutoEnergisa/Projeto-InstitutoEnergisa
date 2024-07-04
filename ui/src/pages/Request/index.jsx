@@ -6,11 +6,9 @@ import { Container, Title, PainelContainer, PainelButton, PainelCard, Painel, Se
 import SoliciteCard from '../../components/SoliciteCard';
 import Modal from 'react-modal';
 
-// Define the app element for accessibility
 Modal.setAppElement('#root');
 
 const Request = () => {
-
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');

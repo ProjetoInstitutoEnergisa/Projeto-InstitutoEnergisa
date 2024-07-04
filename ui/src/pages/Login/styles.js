@@ -38,6 +38,7 @@ export const CadastroContainer = styled.div`
   width: 50%;
   opacity: 0;
   z-index: 1;
+  overflow-y: auto;
 
   ${props => props.login !== true ? `
   transform: translateX(100%);
@@ -69,7 +70,21 @@ export const Form = styled.form`
   padding: 0 50px;
   height: 100%;
   text-align: center;
+  overflow-y: auto;
 `;
+
+export const FormCadastro = styled.form`
+  background-color: #F2F2F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 32px;
+  text-align: center;
+  overflow-y: auto;
+`;
+
+
 
 export const Title = styled.div`
   color: #545454;

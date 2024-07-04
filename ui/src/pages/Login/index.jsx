@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Image from '../../assets/logoInstituto.png';
 
-import { Container, CadastroContainer, Form, Title, Input, Button, LoginContainer, Anchor,
+import { Container, CadastroContainer, Form, FormCadastro, Title, Input, Button, LoginContainer, Anchor,
     OverlayContainer, Overlay, Painel, EsquerdoPainel, DireitoPainel, Paragraph, LeftButton, SubTitle, 
     SubTitleNoMargin, ImageContainer, Body, TitleTwo  } from "./styles";
 import { useAuth } from "../../hooks/useAuth";
@@ -41,15 +41,20 @@ const FormLogin = () => {
                 <SubTitleNoMargin><h4>Instituto Energisa</h4></SubTitleNoMargin>
                 <Container>
                     <CadastroContainer login={login}>
-                        <Form>
+                        <FormCadastro>
                             <Title>Dados do Usuário</Title><br />
                             <Input type="text" placeholder="Seu Nome" />
                             <Input type="email" placeholder="Email" />
                             <Input type="email" placeholder="Confirme seu Email" />
                             <Input type="password" placeholder="Senha" />
                             <Input type="password" placeholder="Confirme sua Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
                             <Button href="#">Cadastre-se</Button>
-                        </Form>
+                        </FormCadastro>
                     </CadastroContainer>
 
                     <LoginContainer login={login}>
