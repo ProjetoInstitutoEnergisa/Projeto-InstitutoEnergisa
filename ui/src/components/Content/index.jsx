@@ -57,7 +57,7 @@ const Content = () => {
                     <PainelButton>
                     <SearchInput
                         type="text"
-                        placeholder="Buscar por nome"
+                        placeholder="Buscar Por Nome"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />

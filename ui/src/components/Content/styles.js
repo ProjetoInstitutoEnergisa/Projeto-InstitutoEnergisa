@@ -103,10 +103,13 @@ export const Modal = styled.div`
 
 export const SearchInput = styled.input`
   padding: 10px;
+  width: 250px;
   border: 1px solid #ccc;
   border-radius: 5px;
   position: relative;  
   margin-right: 32px;
+  text-align: center;
+  letter-spacing: 0.5px;
   
 
   &:focus { 
