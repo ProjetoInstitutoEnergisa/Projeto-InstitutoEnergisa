@@ -3,16 +3,22 @@ import styled from 'styled-components';
 export const FormContainer = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 0px;
+  padding: 15px;
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 `;
 
-export const FormTitle = styled.h2`
+export const FormTitle = styled.h3`
+  color: #444;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
 `;
 
 export const Form = styled.form`
@@ -29,7 +35,7 @@ export const FormField = styled.div`
   & > div {
     flex: 1;
     min-width: 200px;
-    margin-right: 20px;
+    margin: 10px;
     margin-bottom: 10px;
   }
 
@@ -42,13 +48,21 @@ export const FormField = styled.div`
     margin: auto ;
     font-size: 0.875rem;
     color : #737373;
+    text-align: justify;
+  }
+
+  a {
+    color: #3d987f;
+    text-decoration: none;
   }
 `;
 
 export const Label = styled.label`
+  color: #444;
   display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 15px;
+
 `;
 
 export const Input = styled.input`
@@ -57,6 +71,7 @@ export const Input = styled.input`
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: #444;
 `;
 
 export const TextArea = styled.textarea`
@@ -85,12 +100,13 @@ export const SubmitButton = styled.button`
   padding: 10px 20px;
   background-color: #3d978e;
   margin: auto;
-  width: 20%;
+  width: 10%;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
+  letter-spacing: 1px;
 
   &:hover {
     background-color: #3d978f;
@@ -109,9 +125,12 @@ export const CloseButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
-  background: none;
+  background: #444;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
   border: none;
-  color: #000;
-  font-size: 20px;
+  color: #F2F2F2;
+  font-size: 14px;
   cursor: pointer;
 `;

@@ -29,54 +29,60 @@ const FormularioInscricao = ({ closeModal }) => {
 
   return (
     <FormContainer>
-      <FormTitle>Formulário de Inscrição</FormTitle>
+      <FormTitle>FORMULÁRIO DE SOLICITAÇÃO</FormTitle>
       <CloseButton type="button" onClick={closeModal}>X</CloseButton>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
           <div>
-            <Label htmlFor="name">Nome Completo do Preponente:</Label>
+            <Label htmlFor="nome_completo">Nome Completo</Label>
             <Input
               type="text"
-              name="name"
-              id="name"
+              name="nome_completo"
+              id="nome_completo"
               placeholder="Digite Seu Nome Completo"
-              {...register("name", { required: true })}
+              {...register("nome_completo", { required: true })}
             />
-            {errors.name && <ErrorMessage>Nome é obrigatório.</ErrorMessage>}
+            {errors.nome_completo && <ErrorMessage>Nome é obrigatório.</ErrorMessage>}
           </div>
+
           <div>
-            <Label htmlFor="city">Cidade e Estado:</Label>
+            <Label htmlFor="cidade">Cidade</Label>
             <Input
               type="text"
-              name="city"
-              id="city"
-              placeholder="Cidade, Estado"
-              {...register("city", { required: true })}
+              name="cidade"
+              id="cidade"
+              placeholder="Cidade"
+              {...register("cidade", { required: true })}
             />
-            {errors.city && <ErrorMessage>Cidade e estado são obrigatórios.</ErrorMessage>}
+            {errors.cidade && <ErrorMessage>Cidade é obrigatórios.</ErrorMessage>}
           </div>
+
           <div>
-            <Label htmlFor="phone">Telefone:</Label>
+            <Label htmlFor="estado">Estado</Label>
             <Input
               type="text"
-              name="phone"
-              id="phone"
+              name="estado"
+              id="estado"
+              placeholder="Estado"
+              {...register("estado", { required: true })}
+            />
+            {errors.estado && <ErrorMessage>Estado é obrigatórios.</ErrorMessage>}
+          </div>
+
+          <div>
+            <Label htmlFor="telefone">Telefone</Label>
+            <Input
+              type="number"
+              name="telefone"
+              id="telefone"
               placeholder="32 9999-9999"
-              {...register("phone", { required: true })}
+              {...register("telefone", { required: true })}
             />
-            {errors.phone && <ErrorMessage>Telefone é obrigatório.</ErrorMessage>}
-            <Label>
-              <Checkbox
-                type="checkbox"
-                name="whats"
-                id="whats"
-                {...register("whats")}
-              />
-              Este número é WhatsApp?
-            </Label>
+            {errors.telefone && <ErrorMessage>Telefone é obrigatório.</ErrorMessage>}
           </div>
+
           <div>
-            <Label htmlFor="email">Email:</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               type="email"
               name="email"
@@ -94,44 +100,99 @@ const FormularioInscricao = ({ closeModal }) => {
 
         <FormField>
           <div>
-            <Label htmlFor="document">Envio PDF - Documento (RG e CPF ou CNPJ):</Label>
+            <Label htmlFor="documento_identificacao">Envio PDF - RG e CPF</Label>
             <Input
               type="file"
-              name="document"
-              id="document"
+              name="documento_identificacao"
+              id="documento_identificacao"
               accept=".pdf, .docx"
-              {...register("document", { required: true })}
+              {...register("documento_identificacao", { required: true })}
             />
-            {errors.document && <ErrorMessage>Documento é obrigatório.</ErrorMessage>}
+            {errors.documento_identificacao && <ErrorMessage>Documento é obrigatório.</ErrorMessage>}
           </div>
           <div>
-            <Label htmlFor="passaport">RNE - em caso do proponente por estrangeiro:</Label>
+            <Label htmlFor="documento_rne">RNE - Se for estrangeiro</Label>
             <Input
               type="file"
-              name="passaport"
-              id="passaport"
+              name="documento_rne"
+              id="documento_rne"
               accept=".pdf, .docx"
-              {...register("passaport")}
+              {...register("documento_rne")}
             />
-            {errors.passaport && <ErrorMessage>Passaporte é obrigatório para estrangeiros.</ErrorMessage>}
+            {errors.documento_rne && <ErrorMessage>Passaporte é obrigatório para estrangeiros.</ErrorMessage>}
+          </div>
+
+          <div>
+            <Label htmlFor="comprovante_residencia">Comprovante de Redisência</Label>
+            <Input
+              type="file"
+              name="comprovante_residencia"
+              id="dcomprovante_residencia"
+              accept=".pdf, .docx"
+              {...register("comprovante_residencia")}
+            />
+            {errors.comprovante_residencia && <ErrorMessage>Comprovante de Residência é obrigatório.</ErrorMessage>}
+          </div>
+
+          <div>
+            <Label htmlFor="genero">Gênero</Label>
+            <Select {...register("genero", { required: true })} id="genero">
+              <option value="">Selecione...</option>
+              <option value="mulher">Mulher</option>
+              <option value="homem">Homem</option>
+              <option value="nao_binario">Não-binário</option>
+              <option value="transgenero">Transgênero</option>
+              <option value="agenero">Agênero</option>
+              <option value="genero_fluido">Gênero fluido</option>
+              <option value="genero_naoInformar">Prefiro Não Informar</option>
+              <option value="outros">Outros</option>
+            </Select>
+            {errors.genero && <ErrorMessage>Gênero é obrigatório.</ErrorMessage>}
+            {watch("genero") === "outros" && (
+              <div>
+                <Label htmlFor="outroGenero">Especifique</Label>
+                <Input type="text" {...register("outroGenero")} id="outroGenero" />
+              </div>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="raca_etnia">Raça/Etnia</Label>
+            <Select {...register("raca_etnia", { required: true })} id="raca_etnia">
+              <option value="">Selecione...</option>
+              <option value="branca">Branca</option>
+              <option value="preta">Preta</option>
+              <option value="parda">Parda</option>
+              <option value="amarela">Amarela</option>
+              <option value="indigena">Indígena</option>
+              <option value="outros">Outros</option>
+            </Select>
+            {errors.raca_etnia && <ErrorMessage>Raça/Etnia é obrigatória.</ErrorMessage>}
+            {watch("raca_etnia") === "outros" && (
+              <div>
+                <Label htmlFor="outroraca_etnia">Especifique</Label>
+                <Input type="text" {...register("outroraca_etnia")} id="outroraca_etnia" />
+              </div>
+            )}
           </div>
         </FormField>
 
         <FormField>
           <div>
-            <Label htmlFor="nameProject">Nome do Projeto/Proposta:</Label>
+            <Label htmlFor="nome_projetoacao">Nome do Projeto/Proposta</Label>
             <Input
               type="text"
-              name="nameProject"
-              id="nameProject"
+              name="nome_projetoacao"
+              id="nome_projetoacao"
               placeholder="Digite o Nome do Projeto"
-              {...register("nameProject", { required: true })}
+              {...register("nome_projetoacao", { required: true })}
             />
-            {errors.nameProject && <ErrorMessage>Nome do projeto é obrigatório.</ErrorMessage>}
+            {errors.nome_projetoacao && <ErrorMessage>Nome do projeto é obrigatório.</ErrorMessage>}
           </div>
+
           <div>
-            <Label htmlFor="artistic">Linguagem artística da proposta:</Label>
-            <Select {...register("artistic", { required: true })} id="artistic">
+            <Label htmlFor="linguagem_artistica">Linguagem artística da proposta</Label>
+            <Select {...register("linguagem_artistica", { required: true })} id="linguagem_artistica">
               <option value="">Selecione...</option>
               <option value="artesCenicas">Artes Cênicas</option>
               <option value="cinema">Cinema</option>
@@ -140,46 +201,61 @@ const FormularioInscricao = ({ closeModal }) => {
               <option value="inovacao">Inovação</option>
               <option value="outros">Outros</option>
             </Select>
-            {errors.artistic && <ErrorMessage>Linguagem artística é obrigatória.</ErrorMessage>}
-            {watch("artistic") === "outros" && (
+            {errors.linguagem_artistica && <ErrorMessage>Linguagem artística é obrigatória.</ErrorMessage>}
+            {watch("linguagem_artistica") === "outros" && (
               <div>
-                <Label htmlFor="outroArtistic">Especifique:</Label>
-                <Input type="text" {...register("outroArtistic")} id="outroArtistic" />
+                <Label htmlFor="outrolinguagem_artistica">Especifique:</Label>
+                <Input type="text" {...register("outrolinguagem_artistica")} id="outrolinguagem_artistica" />
               </div>
             )}
           </div>
+
           <div>
-            <Label htmlFor="espaco">
-              Defina o Espaço Cultural do Instituto Energisa:
+            <Label htmlFor="nome_espaco">
+              Defina o Espaço Cultural do Instituto Energisa
             </Label>
-            <Select {...register("espaco", { required: true })} id="espaco">
+            <Select {...register("nome_espaco", { required: true })} id="nome_espaco">
               <option value="">Selecione...</option>
               <option value="Cataguases">Cataguases, MG</option>
               <option value="JoaoPessoa">João Pessoa, PB</option>
               <option value="NovaFriburgo">Nova Friburgo, RJ</option>
             </Select>
-            {errors.espaco && <ErrorMessage>Seleção de espaço é obrigatória.</ErrorMessage>}
+            {errors.nome_espaco && <ErrorMessage>Seleção de espaço é obrigatória.</ErrorMessage>}
           </div>
         </FormField>
 
         <FormField>
           <div>
-            <Label htmlFor="proposta">
-              <p className='paragrafo'>
-                Enviar em (pdf, docx ou doc) contendo os seguintes itens: Descrição da proposta,
-                Currículo do proponente, Data e horário pretendido para realização, Público alvo,
-                Ficha técnica, Valor do ingresso (se houver), Rider técnico e outras informações
-                relevantes.(Modelo referência disponível <a href="/modelo.docx" download>aqui</a>.)
+            <Label htmlFor="descricao_proposta">
+              <p className='descricao_proposta'>
+                Enviar em (PDF):  Descrição da proposta com projeto, currículo, ficha técnica e cronograma. 
+                (Modelo referência disponível <a href="/modelo.docx" download> aqui</a>.)
               </p>
             </Label>
             <Input
               type="file"
-              name="proposta"
-              id="proposta"
+              name="descricao_proposta"
+              id="descricao_proposta"
               accept=".pdf, .docx"
-              {...register("proposta", { required: true })}
+              {...register("descricao_proposta", { required: true })}
             />
-            {errors.proposta && <ErrorMessage>Arquivo é obrigatório.</ErrorMessage>}
+            {errors.descricao_proposta && <ErrorMessage>Arquivo é obrigatório.</ErrorMessage>}
+          </div>
+
+          <div>
+            <Label htmlFor="fotos_imagens">
+              <p className='fotos_imagens'>
+                Enviar fotos, imagens e comprovantes de atuação do grupo, artista ou espetáculo.
+              </p>
+            </Label>
+            <Input
+              type="file"
+              name="fotos_imagens"
+              id="fotos_imagens"
+              accept=".pdf, .docx"
+              {...register("fotos_imagens", { required: true })}
+            />
+            {errors.fotos_imagens && <ErrorMessage>Arquivo é obrigatório.</ErrorMessage>}
           </div>
         </FormField>
 
@@ -189,10 +265,9 @@ const FormularioInscricao = ({ closeModal }) => {
             <br />
             <p className='paragrafo'>
               Para que você possa participar do Edital de Seleção de Projetos Culturais 2024 para Cessão Gratuita dos espaços culturais
-              do Instituto Energisa (IE), <br />ao qual este Aviso de Privacidade se refere,  o IE poderá coletar determinados Dados Pessoais,
-              como: nome, sobrenome, nome social, RG, CPF/CNPJ,<br /> data de nascimento, etnia/raça, gênero, telefone, e-mail, cidade e estado.
-              O IE observa as leis vigentes sobre segurança e proteção de Dados
-              Pessoais<br /> (“Leis de Proteção de Dados Aplicáveis”), em especial a Lei Federal nº
+              do Instituto Energisa (IE), ao qual este Aviso de Privacidade se refere,  o IE poderá coletar determinados Dados Pessoais,
+              como: nome, sobrenome, nome social, RG, CPF/CNPJ, data de nascimento, etnia/raça, gênero, telefone, e-mail, cidade e estado.
+              O IE observa as leis vigentes sobre segurança e proteção de Dados Pessoais (“Leis de Proteção de Dados Aplicáveis”), em especial a Lei Federal nº
               13.709/2018, Lei Geral de Proteção de Dados (“LGPD”).
             </p>
             <br />
@@ -207,7 +282,7 @@ const FormularioInscricao = ({ closeModal }) => {
           </Label>
         </FormField>
 
-        <SubmitButton type="submit">Enviar</SubmitButton>
+        <SubmitButton type="submit">ENVIAR</SubmitButton>
       </Form>
     </FormContainer>
   );

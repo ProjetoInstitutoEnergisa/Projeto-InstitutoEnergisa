@@ -27,14 +27,7 @@ const Content = () => {
         { cardTitle: "Nos do morro", subTitle: "Cinema", cidadeTitle: "Cataguases", data: "01/01/2021" },
         { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
         { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
+
     ];
 
     // Função para filtrar por nome
@@ -69,9 +62,6 @@ const Content = () => {
                     <PainelHeader>
                         Suas Solicitações
                     </PainelHeader>
-                    <PainelButton>
-                        <button type="button" onClick={openModal}>Ver Todas</button>
-                    </PainelButton>
                 </Painel>
 
                 <PainelCard>

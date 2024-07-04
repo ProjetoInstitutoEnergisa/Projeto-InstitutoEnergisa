@@ -20,7 +20,6 @@ export const PainelContainer = styled.div`
     padding: 15px;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
 `;
 
 export const Painel = styled.div`
