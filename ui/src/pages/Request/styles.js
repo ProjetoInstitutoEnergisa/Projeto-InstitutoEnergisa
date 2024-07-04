@@ -103,6 +103,7 @@ export const SearchInput = styled.input`
   position: relative;  
   margin-right: 32px;
   text-align: center;
+  letter-spacing: 0.5px;
   
 
   &:focus { 

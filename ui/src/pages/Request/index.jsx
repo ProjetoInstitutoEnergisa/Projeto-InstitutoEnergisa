@@ -53,7 +53,7 @@ const Request = () => {
 
                 <Container>
                     <Title>
-                        SOLICITAÇÕES
+                        Solicitações
                     </Title>
 
                     <PainelContainer>
@@ -61,7 +61,7 @@ const Request = () => {
                             <PainelButton>
                                 <SearchInput
                                     type="text"
-                                    placeholder="PESQUISAR POR NOME"
+                                    placeholder="Pesquisar Por Nome"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />

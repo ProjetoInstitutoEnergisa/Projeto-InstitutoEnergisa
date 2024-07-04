@@ -73,7 +73,6 @@ export const Form = styled.form`
 
 export const Title = styled.div`
   color: #545454;
-  margin: 0;
   font-size: 18px;
 `;
 
@@ -102,7 +101,7 @@ export const Input = styled.input`
   background: #EBEBEB;
   border-radius: 50px;
   padding: 12px 15px;
-  margin: 8px 0;
+  margin: 5px 0;
   width: 100%;
 `;
 
@@ -112,7 +111,7 @@ export const Button = styled.button`
   color: #F2F2F2;
   font-size: 12px;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 26px;
   padding: 12px 45px;
   letter-spacing: 1px;
   text-transform: uppercase;

@@ -47,6 +47,7 @@ const FormLogin = () => {
                             <Input type="email" placeholder="Email" />
                             <Input type="email" placeholder="Confirme seu Email" />
                             <Input type="password" placeholder="Senha" />
+                            <Input type="password" placeholder="Confirme sua Senha" />
                             <Button href="#">Cadastre-se</Button>
                         </Form>
                     </CadastroContainer>
