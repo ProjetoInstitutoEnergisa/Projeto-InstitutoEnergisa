@@ -8,7 +8,7 @@ const HomeAdmin = () => {
     return (
         <LayoutAdmin>
             <ContentAdmin>
-                <h1>PRAGA DOS INFERNOS</h1>
+                <h1>Oie, teste!</h1>
             </ContentAdmin>
         </LayoutAdmin>
     );
