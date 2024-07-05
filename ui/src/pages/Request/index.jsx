@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import LayoutAdmin from "../../components/LayoutAdmin";
 import ContentAdmin from "../../components/ContentAdmin";
 
-import { Container, Title, PainelContainer, PainelButton, PainelCard, Painel, SearchInput } from './styles';
+import { Container, Title, PainelContainer, PainelButton, PainelCard, PainelRequest, SearchInput } from './styles';
 import SoliciteCard from '../../components/SoliciteCard';
 import Modal from 'react-modal';
 
@@ -55,7 +55,7 @@ const Request = () => {
                     </Title>
 
                     <PainelContainer>
-                        <Painel>
+                        <PainelRequest>
                             <PainelButton>
                                 <SearchInput
                                     type="text"
@@ -64,7 +64,7 @@ const Request = () => {
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </PainelButton>
-                        </Painel>
+                        </PainelRequest>
 
 
                         <PainelCard>

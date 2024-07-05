@@ -23,7 +23,7 @@ export const PainelContainer = styled.div`
     flex-direction: column;
 `;
 
-export const Painel = styled.div`
+export const PainelRequest = styled.div`
     background-color: #EBEBEB;
     border-radius: 15px;
 
