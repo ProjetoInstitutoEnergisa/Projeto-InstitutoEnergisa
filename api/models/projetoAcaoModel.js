@@ -28,8 +28,8 @@ const ProjetoAcao = sequelize.define('ProjetoAcao', {
     allowNull: false,
   },
   duvidas: {
-    type: DataTypes.TEXT, // Verifique se o tipo de dados está correto
-    allowNull: true, // Verifique se allowNull está definido corretamente
+    type: DataTypes.TEXT, 
+    allowNull: true, 
   },
   termo: {
     type: DataTypes.BOOLEAN,
