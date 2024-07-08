@@ -134,3 +134,14 @@ export const CloseButton = styled.button`
   font-size: 14px;
   cursor: pointer;
 `;
+
+// Em styles.js
+export const DisplayData = styled.div`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  color: #444;
+  background-color: #f2f2f2;
+  margin-top: 5px;
+`;

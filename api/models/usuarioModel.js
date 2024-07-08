@@ -67,13 +67,13 @@ const UsuarioModel = sequelize.define(
         }
       },
       beforeUpdate: async (usuario) => {
-        if (usuario.senha) {
+        if (usuario.changed('senha')) {
           const salt = await bcrypt.genSalt(10);
           usuario.senha = await bcrypt.hash(usuario.senha, salt);
         }
       },
     },
-    tableName: "usuarios",
+    tableName: "Usuario",
     timestamps: false,
   }
 );

@@ -15,7 +15,6 @@ export const ImageContainer = styled.div`
   margin-left: 20px;
 `;
 
-
 export const Container = styled.div`
   background-color: #F2F2F2;
   border-radius: 10px;
@@ -40,7 +39,7 @@ export const CadastroContainer = styled.div`
   z-index: 1;
   overflow-y: auto;
 
-  ${props => props.login !== true ? `
+  ${props => props.isLogin !== true ? `
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;`
@@ -56,9 +55,9 @@ export const LoginContainer = styled.div`
   width: 50%;
   z-index: 2;
 
-    ${props => (props.login !== true ? `
-    transform: translateX(100%);`
-      : null)}
+  ${props => (props.isLogin !== true ? `
+  transform: translateX(100%);`
+    : null)}
 `;
 
 export const Form = styled.form`
@@ -84,7 +83,13 @@ export const FormCadastro = styled.form`
   overflow-y: auto;
 `;
 
-
+export const Select = styled.select`
+  background: #EBEBEB;
+  border-radius: 50px;
+  padding: 12px 15px;
+  margin: 5px 0;
+  width: 100%;
+`;
 
 export const Title = styled.div`
   color: #545454;
@@ -132,12 +137,12 @@ export const Button = styled.button`
   text-transform: uppercase;
   transition: transform 80ms ease-in;
 
-    &:active{
-      transform: scale(0.95);
-    }
-    &:focus {
-      outline: none;
-    }
+  &:active{
+    transform: scale(0.95);
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const LeftButton = styled(Button)`
@@ -149,7 +154,7 @@ export const Anchor = styled.a`
   font-size: 14px;
   text-decoration: none;
   margin: 15px 0;
- `;
+`;
 
 export const OverlayContainer = styled.div`
   position: absolute;
@@ -161,7 +166,7 @@ export const OverlayContainer = styled.div`
   transition: transform 0.6s ease-in-out;
   z-index: 100;
 
-  ${props => props.login !== true ? `
+  ${props => props.isLogin !== true ? `
   transform: translateX(-100%);`
     : null}
 `;
@@ -179,7 +184,7 @@ export const Overlay = styled.div`
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
 
-  ${props => (props.login !== true ? `
+  ${props => (props.isLogin !== true ? `
   transform: translateX(50%);`
     : null)}
 `;
@@ -202,18 +207,18 @@ export const Painel = styled.div`
 export const EsquerdoPainel = styled(Painel)`
   transform: translateX(-20%);
 
-  ${props => props.login !== true ? `
+  ${props => props.isLogin !== true ? `
   transform: translateX(0);`
-  : null}
+    : null}
 `;
 
 export const DireitoPainel = styled(Painel)`
   right: 0;
   transform: translateX(0);
 
-  ${props => props.login !== true ? `
+  ${props => props.isLogin !== true ? `
   transform: translateX(20%);`
-  : null}
+    : null}
 `;
 
 export const Paragraph = styled.p`
@@ -221,5 +226,5 @@ export const Paragraph = styled.p`
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0.5px;
-  margin: 20px 0 30px
+  margin: 20px 0 30px;
 `;

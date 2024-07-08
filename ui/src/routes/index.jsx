@@ -1,13 +1,10 @@
-import React from "react";
-import App from "./app.routes";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { AuthProvider } from './hooks/useAuth';
 
-import { useAuth } from "../hooks/useAuth";
-import AppRoutes from "./app.routes";
-
-const Routes = () => {
-
-    const { logged } = useAuth();
-        { logged ? <App/> : <AppRoutes /> }
-};
-
-export default Routes;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+);

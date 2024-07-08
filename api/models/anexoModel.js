@@ -20,7 +20,8 @@ const Anexo = sequelize.define('Anexo', {
     allowNull: false,
   },
 }, {
-  timestamps: true,
+  modelName: 'Anexo',
+  timestamps: false,
 });
 
 module.exports = Anexo;

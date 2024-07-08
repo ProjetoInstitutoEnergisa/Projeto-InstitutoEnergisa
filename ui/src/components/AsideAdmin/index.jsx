@@ -26,21 +26,12 @@ const AsideAdm = () => {
         navigate('/dashboard'); // Navegue para a página Dashboard
     }
 
-    const handleRequestClick = () => {
-        navigate('/request'); // Navegue para a página Request
-    }
-
     return (
         <Container>
             <MenuContainer>
                 <MenuItemLink onClick={handleHomeClick}>
                     <MdHome />
                     Início
-                </MenuItemLink>
-
-                <MenuItemLink onClick={handleRequestClick}>
-                    <MdArticle />   
-                    Solicitações
                 </MenuItemLink>
 
                 <MenuItemLink onClick={handleDashboardClick}>

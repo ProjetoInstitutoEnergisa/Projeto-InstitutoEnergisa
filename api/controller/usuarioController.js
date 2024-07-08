@@ -1,7 +1,7 @@
 const Usuario = require("../models/usuarioModel");
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
-const { Op } = require('sequelize');
+const { Op, json } = require('sequelize');
 
 const listarUsuarios = async (req, res) => {
   try {
@@ -26,7 +26,6 @@ const obterUsuarioPorId = async (req, res) => {
     res.status(500).json({ message: "Erro ao obter usuário", error });
   }
 };
-
 const criarUsuario = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -46,13 +45,9 @@ const criarUsuario = async (req, res) => {
       return res.status(400).json({ message: "Email já cadastrado" });
     }
 
-    if (req.body.senha) {
-      const salt = await bcrypt.genSalt(10);
-      req.body.senha = await bcrypt.hash(req.body.senha, salt);
-    }
-
     const novoUsuario = await Usuario.create(req.body);
     res.status(201).json(novoUsuario);
+    console.log(req.body);
   } catch (error) {
     console.error(error);
     if (error.name === "SequelizeUniqueConstraintError") {
@@ -95,10 +90,48 @@ const deletarUsuario = async (req, res) => {
   }
 };
 
+const loginUsuario = async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    // Verifica se é um login de administrador específico
+    if (email === 'admin@example.com' && senha === 'admin') {
+      // Em um ambiente de desenvolvimento, você pode simplesmente retornar sucesso sem consultar o banco de dados
+      res.status(200).json({ msg: "Usuário logado", role: "admin" });
+    } else {
+      // Consulta no banco de dados (ou onde estiver armazenado)
+      const usuario = await Usuario.findOne({
+        where: {
+          email: {
+            [Op.like]: email.toLowerCase(),
+          },
+        },
+      });
+
+      if (!usuario) {
+        return res.status(400).json({ msg: "Usuário não registrado!" });
+      }
+
+      const isMatch = bcrypt.compareSync(senha, usuario.senha);
+      if (isMatch) {
+        const role = usuario.role; // Assuming the role is stored in the 'role' field of the user model
+        res.status(200).json({ msg: "Usuário logado", role: "user", userId: usuario.id_usuario});
+      } else {
+        res.status(400).json({ msg: "Senha incorreta" });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Erro ao fazer login" });
+  }
+};
+
+
 module.exports = {
   listarUsuarios,
   obterUsuarioPorId,
   criarUsuario,
   atualizarUsuario,
   deletarUsuario,
+  loginUsuario
 };

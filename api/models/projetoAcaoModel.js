@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const {sequelize} = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const ProjetoAcao = sequelize.define('Projeto', {
+const ProjetoAcao = sequelize.define('ProjetoAcao', {
   id_projetoacao: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,16 +23,25 @@ const ProjetoAcao = sequelize.define('Projeto', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  duvidas: {
-    type: DataTypes.TEXT,
+  linguagem_artistica: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  status: {
-    type: DataTypes.ENUM('pendente', 'aprovado', 'rejeitado'),
-    defaultValue: 'pendente',
+  duvidas: {
+    type: DataTypes.TEXT, // Verifique se o tipo de dados está correto
+    allowNull: true, // Verifique se allowNull está definido corretamente
+  },
+  termo: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  nome_espaco: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
 }, {
-  timestamps: true,
+  modelName: 'ProjetoAcao',
+  timestamps: false,
 });
 
 module.exports = ProjetoAcao;

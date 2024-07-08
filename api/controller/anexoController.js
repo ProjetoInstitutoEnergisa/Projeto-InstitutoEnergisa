@@ -1,5 +1,4 @@
-const Anexo = require('../models/anexoModel');
-
+/* /const Anexo = require('../models/anexoModel');
 
 const listarAnexos = async (req, res) => {
   try {
@@ -25,9 +24,18 @@ const obterAnexoPorId = async (req, res) => {
 
 const criarAnexo = async (req, res) => {
   try {
-    const novoAnexo = await Anexo.create(req.body);
+    const { tipo_anexo, id_projetoacao } = req.body;
+    const { location: arquivo } = req.file; // URL do arquivo no S3
+
+    const novoAnexo = await Anexo.create({
+      tipo_anexo,
+      arquivo,
+      id_projetoacao,
+    });
+
     res.status(201).json(novoAnexo);
   } catch (error) {
+    console.error('Erro ao criar anexo:', error);
     res.status(500).json({ message: 'Erro ao criar anexo', error });
   }
 };
@@ -65,3 +73,4 @@ module.exports = {
   atualizarAnexo,
   deletarAnexo,
 };
+*/

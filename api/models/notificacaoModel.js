@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const {sequelize} = require('../config/database');
-
 const Notificacao = sequelize.define('Notificacao', {
   id_notificacao: {
     type: DataTypes.INTEGER,
@@ -25,7 +24,8 @@ const Notificacao = sequelize.define('Notificacao', {
     allowNull: false,
   },
 }, {
-  timestamps: true,
+  modelName: 'Notificacao',
+  timestamps: false,
 });
 
 module.exports = Notificacao;

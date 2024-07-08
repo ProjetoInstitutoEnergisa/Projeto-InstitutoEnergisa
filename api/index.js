@@ -1,10 +1,10 @@
-// index.js
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const { sequelize, createDatabase } = require("./config/database");
 const routes = require("./routes");
+const { swaggerUi, specs } = require("./swaggerConfig"); // Importa as configurações do Swagger
 
 dotenv.config();
 
@@ -18,6 +18,9 @@ app.use(morgan("dev"));
 
 // Rotas
 app.use("/api", routes);
+
+// Rota para Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Conectar ao banco de dados e iniciar o servidor
 createDatabase()
