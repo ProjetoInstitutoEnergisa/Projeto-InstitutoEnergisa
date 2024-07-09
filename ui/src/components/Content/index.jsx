@@ -3,16 +3,17 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { Container, Title, PainelContainer, PainelHeader, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../SoliciteCard';
-import { useAuth } from '../../hooks/useAuth'; // Importe o hook useAuth
+import { useAuth } from '../../hooks/useAuth'; 
 
 // Define o elemento raiz da aplicação para acessibilidade
 Modal.setAppElement('#root');
 
 const Content = () => {
-    const { userId } = useAuth(); // Obtenha o userId do contexto de autenticação
+    const { userId } = useAuth(); 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSolicitations, setFilteredSolicitations] = useState([]);
+    const [selectedSolicitation, setSelectedSolicitation] = useState(null); 
 
     useEffect(() => {
         if (userId) {
@@ -42,7 +43,8 @@ const Content = () => {
         setFilteredSolicitations(filtered);
     };
 
-    const openModal = () => {
+    const openModal = (solicitation) => {
+        setSelectedSolicitation(solicitation);
         setModalIsOpen(true);
     };
 
@@ -79,7 +81,8 @@ const Content = () => {
                             cardTitle={solicitation.nome_projetoacao}
                             subTitle={solicitation.linguagem_artistica}
                             cidadeTitle={solicitation.nome_espaco}
-                            data={solicitation.data = new Date().toLocaleDateString()}
+                            data={new Date().toLocaleDateString()}
+                            onClick={() => openModal(solicitation)} 
                         />
                     ))}
                 </PainelCard>
@@ -107,7 +110,7 @@ const Content = () => {
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
-                    <h3>Suas Solicitações</h3>
+                    <h3>Detalhes da Solicitação</h3>
                     <button onClick={closeModal} style={{
                         position: 'absolute',
                         padding: '8px',
@@ -117,22 +120,15 @@ const Content = () => {
                         color: '#3D978F',
                         fontSize: '20px',
                     }}>X</button>
-                    <SearchInput
-                        type="text"
-                        placeholder="Buscar por nome"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
                 </div>
-                {filteredSolicitations.map((solicitation, index) => (
-                    <SoliciteCard
-                        key={index}
-                        cardTitle={solicitation.nome_projetoacao}
-                        subTitle={solicitation.descricao_proposta}
-                        cidadeTitle={solicitation.cidade}
-                        data={solicitation.data}
-                    />
-                ))}
+                {selectedSolicitation && (
+                    <div>
+                        <h2>{selectedSolicitation.nome_projetoacao}</h2>
+                        <p>{selectedSolicitation.descricao_proposta}</p>
+                        <p>{selectedSolicitation.cidade}</p>
+                        <p>{new Date(selectedSolicitation.data).toLocaleDateString()}</p>
+                    </div>
+                )}
             </Modal>
         </Container>
     );

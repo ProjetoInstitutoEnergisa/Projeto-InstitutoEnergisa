@@ -1,30 +1,35 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-
+export const ChartsAll = styled.div`
+  margin-right: 5rem;
+  display: flex;
+  flex-direction: column; 
+  width: 100%;
+  margin-top: 2rem; 
 `;
 
 export const ContainerHeader = styled.div`
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
-   padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  position: relative; 
 `;
 
 export const Button = styled.a`
+  position: absolute;
+  top: 12px; 
+  right: 12px; 
   color: #f2f2f2;
   background-color: #3d987f;
-  margin-right: 26px;
   cursor: pointer;
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
 `;
 
-
 export const Title = styled.h3`
-    padding: 30px; 
-    color: #3D978F;
+  margin-bottom: 800px; 
+  padding: 30px;
+  color: #3d978f;
 `;
-
