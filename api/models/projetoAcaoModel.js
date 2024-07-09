@@ -20,7 +20,7 @@ const ProjetoAcao = sequelize.define('ProjetoAcao', {
     allowNull: false,
   },
   fotos_imagens: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   linguagem_artistica: {
@@ -38,6 +38,16 @@ const ProjetoAcao = sequelize.define('ProjetoAcao', {
   nome_espaco: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: 'Em análise',
+  },
+  data_criacao: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 }, {
   modelName: 'ProjetoAcao',

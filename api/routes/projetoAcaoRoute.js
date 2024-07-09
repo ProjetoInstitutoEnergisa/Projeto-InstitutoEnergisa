@@ -103,8 +103,6 @@ router.get('/:id', projetoAcaoController.obterProjetoPorId);
  *                 type: boolean
  *               nome_espaco:
  *                 type: string
- *               endereco_espaco:
- *                 type: string
  *     responses:
  *       201:
  *         description: Projeto ou ação criado

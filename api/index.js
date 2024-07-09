@@ -38,5 +38,11 @@ createDatabase()
   .catch((err) => {
     console.error("Erro ao conectar com o banco de dados:", err);
   });
+  // Middleware de tratamento de erros (coloque no final do arquivo)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
 
 module.exports = app;

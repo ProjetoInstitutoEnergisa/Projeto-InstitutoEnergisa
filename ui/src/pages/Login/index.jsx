@@ -57,11 +57,26 @@ const FormLogin = () => {
     const handleCadastro = async (e) => {
         e.preventDefault();
         try {
-            console.log('Dados enviados para cadastro:', userData); // Verifica os dados que estão sendo enviados
-            const response = await axios.post('http://localhost:3000/api/usuarios', userData);
+            const formData = new FormData();
+            formData.append('nome_completo', userData.nome_completo);
+            formData.append('email', userData.email);
+            formData.append('senha', userData.senha);
+            formData.append('telefone', userData.telefone);
+            formData.append('genero', userData.genero);
+            formData.append('raca_etnia', userData.raca_etnia);
+            formData.append('cidade', userData.cidade);
+            formData.append('estado', userData.estado);
+            formData.append('comprovante_residencia', userData.comprovante_residencia);
+            formData.append('documento_identificacao', userData.documento_identificacao);
+            formData.append('documento_rne', userData.documento_rne);
 
-            console.log('Resposta do servidor:', response); // Verifica a resposta do servidor
+            const response = await axios.post('http://localhost:3000/api/usuarios', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
+           
             if (response.status === 201) {
                 toast.success(
                     `Cadastro realizado com sucesso! Seja bem-vindo(a), ${response.data.nome_completo}!`,
@@ -69,19 +84,15 @@ const FormLogin = () => {
                 );
                 setTimeout(() => navigate('/login'), 4000);
             } else {
-                // Lida com respostas de erro do servidor (ex: 400 Bad Request)
                 toast.error(response.data.message || 'Erro ao cadastrar usuário. Tente novamente.');
             }
         } catch (error) {
-            console.error('Erro ao cadastrar usuário:', error); // Exibe o erro no console
+            console.error('Erro ao cadastrar usuário:', error);
             if (error.response) {
-                // Exibe mensagem de erro específica do backend, se disponível
                 toast.error(error.response.data.message || 'Erro ao cadastrar usuário. Tente novamente.');
             } else if (error.request) {
-                // O servidor não respondeu (ex: timeout)
                 toast.error('Sem resposta do servidor. Verifique sua conexão e tente novamente.');
             } else {
-                // Erro ao configurar a requisição
                 toast.error('Erro ao enviar a requisição. Tente novamente mais tarde.');
             }
         }
@@ -98,7 +109,6 @@ const FormLogin = () => {
     const toggleLogin = () => {
         setIsLogin((prevIsLogin) => !prevIsLogin);
     };
-
     return (
         <>
             <ToastContainer />
@@ -288,7 +298,6 @@ const FormLogin = () => {
                                 type="password"
                                 value={userData.senha}
                                 onChange={handleInputChange}
-                                
                             />
                             <Anchor href="#">Esqueceu sua Senha?</Anchor>
                             <Button

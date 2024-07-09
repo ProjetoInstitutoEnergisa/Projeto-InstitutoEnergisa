@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import LayoutAdmin from "../../components/LayoutAdmin";
 import ContentAdmin from "../../components/ContentAdmin";
 
-import { ContainerRequest, TitleRequest, PainelRequest, ButtonRequest, CardRequest, PainelCardRequest, SearchInput } from './styles';
+import { Container, Title, PainelContainer, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../../components/SoliciteCard';
 import Modal from 'react-modal';
 
@@ -49,25 +49,25 @@ const Request = () => {
         <LayoutAdmin>
             <ContentAdmin>
 
-                <ContainerRequest>
-                    <TitleRequest>
+                <Container>
+                    <Title>
                         Solicitações
-                    </TitleRequest>
+                    </Title>
 
-                    <PainelRequest>
-                        <PainelCardRequest>
-                            <ButtonRequest>
+                    <PainelContainer>
+                        <Painel>
+                            <PainelButton>
                                 <SearchInput
                                     type="text"
                                     placeholder="Pesquisar Por Nome"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
-                            </ButtonRequest>
-                        </PainelCardRequest>
+                            </PainelButton>
+                        </Painel>
 
 
-                        <CardRequest>
+                        <PainelCard>
                             {filteredSolicitations.map((solicitation, index) => (
                                 <SoliciteCard
                                     key={index}
@@ -77,8 +77,8 @@ const Request = () => {
                                     data={solicitation.data}
                                 />
                             ))}
-                        </CardRequest>
-                    </PainelRequest>
+                        </PainelCard>
+                    </PainelContainer>
 
                     <Modal
                         isOpen={modalIsOpen}
@@ -129,7 +129,7 @@ const Request = () => {
                             />
                         ))}
                     </Modal>
-                </ContainerRequest >
+                </Container >
             </ContentAdmin>
         </LayoutAdmin>
     );

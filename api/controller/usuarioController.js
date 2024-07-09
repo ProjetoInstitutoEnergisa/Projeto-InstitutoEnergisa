@@ -2,6 +2,10 @@ const Usuario = require("../models/usuarioModel");
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const { Op, json } = require('sequelize');
+const multer = require('multer'); // Importa o multer
+const upload = require('../config/multerConfig'); // Importa o middleware de upload configurado
+
+
 
 const listarUsuarios = async (req, res) => {
   try {
@@ -26,37 +30,66 @@ const obterUsuarioPorId = async (req, res) => {
     res.status(500).json({ message: "Erro ao obter usuário", error });
   }
 };
+
 const criarUsuario = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
-    const usuarioExistente = await Usuario.findOne({
-      where: {
-        email: {
-          [Op.like]: req.body.email.toLowerCase(),
-        },
-      },
+    // Usar o middleware de upload para capturar os arquivos enviados
+    upload.fields([
+      { name: 'comprovante_residencia', maxCount: 1 },
+      { name: 'documento_identificacao', maxCount: 1 },
+      { name: 'documento_rne', maxCount: 1 },
+    ])(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ message: 'Erro no upload de arquivo.', error: err.message });
+      } else if (err) {
+        return res.status(500).json({ message: 'Erro interno ao processar upload.', error: err.message });
+      }
+
+      // Obter URLs dos arquivos enviados para S3
+      const comprovante_residencia_url = req.files['comprovante_residencia'][0]?.location;
+      const documento_identificacao_url = req.files['documento_identificacao'][0]?.location;
+      const documento_rne_url = req.files['documento_rne']?.[0]?.location;
+
+      // Dados do usuário a serem criados no banco de dados
+      const {
+        nome_completo,
+        email,
+        senha,
+        telefone,
+        genero,
+        raca_etnia,
+        cidade,
+        estado,
+      } = req.body;
+
+      // Criar o usuário no banco de dados
+      const novoUsuario = await Usuario.create({
+        nome_completo,
+        email,
+        senha,
+        telefone,
+        genero,
+        raca_etnia,
+        cidade,
+        estado,
+        comprovante_residencia: comprovante_residencia_url,
+        documento_identificacao: documento_identificacao_url,
+        documento_rne: documento_rne_url,
+      });
+
+      // Retornar as URLs dos arquivos na resposta
+      res.status(201).json({
+        message: 'Usuário criado com sucesso.',
+        comprovante_residencia: comprovante_residencia_url,
+        documento_identificacao: documento_identificacao_url,
+        documento_rne: documento_rne_url,
+      });
     });
-
-    if (usuarioExistente) {
-      return res.status(400).json({ message: "Email já cadastrado" });
-    }
-
-    const novoUsuario = await Usuario.create(req.body);
-    res.status(201).json(novoUsuario);
-    console.log(req.body);
   } catch (error) {
-    console.error(error);
-    if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).json({ message: "Email já cadastrado" });
-    }
-    res.status(500).json({ message: "Erro ao criar usuário", error });
+    console.error('Erro ao criar usuário:', error);
+    res.status(500).json({ message: 'Erro ao criar usuário', error: error.message });
   }
 };
-
 
 const atualizarUsuario = async (req, res) => {
   const { id } = req.params;

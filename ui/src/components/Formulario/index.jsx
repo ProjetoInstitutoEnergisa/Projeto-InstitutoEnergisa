@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
-import { FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select,
-  ErrorMessage, SubmitButton, DisplayData } from './styles';
+import { FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
+  DisplayData } from './styles';
 
 const FormularioInscricao = ({ closeModal }) => {
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
@@ -27,62 +27,49 @@ const FormularioInscricao = ({ closeModal }) => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      // Construir FormData para enviar arquivos E dados do projeto
       const formData = new FormData();
       formData.append('descricao_proposta', data.descricao_proposta[0]);
-
-      // Adicionar todas as fotos/imagens ao FormData
       for (let i = 0; i < data.fotos_imagens.length; i++) {
         formData.append('fotos_imagens', data.fotos_imagens[i]);
       }
-
-      // Envia os arquivos para o backend
-      const fileResponse = await axios.post('http://localhost:3000/api/projetosAcoes', formData, {
+      formData.append('id_usuario', userId); // Adicionar ID do usuário
+      formData.append('nome_projetoacao', data.nome_projetoacao);
+      formData.append('linguagem_artistica', data.linguagem_artistica);
+      formData.append('duvidas', data.duvidas || ''); // Permitir que seja vazio
+      formData.append('nome_espaco', data.nome_espaco);
+      formData.append('termo', data.termo);
+      formData.append('status', 'Em análise');
+      formData.append('data_criacao', new Date().toISOString());
+  
+      // Enviar todos os dados em uma única requisição
+      await axios.post('http://localhost:3000/api/projetosAcoes', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Define o tipo de conteúdo para multipart/form-data
+          'Content-Type': 'multipart/form-data',
         },
       });
-
-      // Extrai as URLs dos arquivos da resposta
-      const descricaoPropostaUrl = fileResponse.data.descricao_proposta;
-      const fotosImagensUrl = fileResponse.data.fotos_imagens;
-
-      // Cria o objeto com os dados do projeto, incluindo as URLs dos arquivos
-      const formDataProjeto = {
-        id_usuario: userId,
-        nome_projetoacao: data.nome_projetoacao,
-        descricao_proposta: descricaoPropostaUrl,
-        fotos_imagens: fotosImagensUrl,
-        linguagem_artistica: data.linguagem_artistica,
-        duvidas: data.duvidas,
-        nome_espaco: data.nome_espaco,
-        endereco_espaco: data.endereco_espaco,
-        termo: data.termo,
-      };
-      console.log(formDataProjeto);
-      // Envia os dados do projeto para o backend
-      await axios.post('http://localhost:3000/api/projetosAcoes', formDataProjeto);
-
+  
+      // Exibir mensagem de sucesso e limpar o formulário após envio
       alert('Projeto cadastrado com sucesso!');
-      closeModal(); // Fecha o modal após o envio
-      reset(); // Limpa o formulário após o envio
-    }  catch (error) {
+      closeModal(); // Fechar modal após envio
+      reset(); // Limpar campos do formulário
+      window.location.reload(); // Recarregar a página para exibir o novo projeto
+
+    } catch (error) {
+      // Tratar erros de requisição
       if (error.response) {
-        // A requisição foi feita e o servidor respondeu com um status de erro (ex: 400)
         console.error('Erro de validação:', error.response.data);
-        alert('Erro ao cadastrar projeto: ' + error.response.data.error); // Exibe a mensagem de erro
+        alert('Erro ao cadastrar projeto: ' + error.response.data.error);
       } else if (error.request) {
-        // A requisição foi feita mas nenhuma resposta foi recebida
         console.error('Erro na requisição:', error.request);
         alert('Erro ao cadastrar projeto. Verifique sua conexão com a internet.');
       } else {
-        // Algo aconteceu ao configurar a requisição que disparou um erro
         console.error('Erro ao configurar a requisição:', error.message);
         alert('Erro ao cadastrar projeto. Por favor, tente novamente mais tarde.');
       }
     }
   };
-
+  
   return (
     <FormContainer>
       <FormTitle>FORMULÁRIO DE SOLICITAÇÃO</FormTitle>
@@ -167,16 +154,6 @@ const FormularioInscricao = ({ closeModal }) => {
               <option value="NovaFriburgo">Nova Friburgo, RJ</option>
             </Select>
             {errors.nome_espaco && <ErrorMessage>Seleção de espaço é obrigatória.</ErrorMessage>}
-          </div>
-          <div>
-            <Label htmlFor="endereco_espaco">Endereço do Espaço Cultural:</Label>
-            <Input
-              type="text"
-              id="endereco_espaco"
-              {...register("endereco_espaco", { required: true })}
-              placeholder="Digite o Endereço do Espaço Cultural"
-            />
-            {errors.endereco_espaco && <ErrorMessage>Endereço do espaço cultural é obrigatório.</ErrorMessage>}
           </div>
           <div>
             <Label htmlFor="duvidas">Dúvidas e observações:</Label>

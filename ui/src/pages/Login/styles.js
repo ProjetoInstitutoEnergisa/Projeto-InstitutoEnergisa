@@ -39,11 +39,11 @@ export const CadastroContainer = styled.div`
   z-index: 1;
   overflow-y: auto;
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(100%);
-    opacity: 1;
-    z-index: 5;
-  `}
+  ${props => props.isLogin !== true ? `
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;`
+    : null}
 `;
 
 export const LoginContainer = styled.div`
@@ -55,9 +55,9 @@ export const LoginContainer = styled.div`
   width: 50%;
   z-index: 2;
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(100%);
-  `}
+  ${props => (props.isLogin !== true ? `
+  transform: translateX(100%);`
+    : null)}
 `;
 
 export const Form = styled.form`
@@ -137,10 +137,9 @@ export const Button = styled.button`
   text-transform: uppercase;
   transition: transform 80ms ease-in;
 
-  &:active {
+  &:active{
     transform: scale(0.95);
   }
-
   &:focus {
     outline: none;
   }
@@ -167,9 +166,9 @@ export const OverlayContainer = styled.div`
   transition: transform 0.6s ease-in-out;
   z-index: 100;
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(-100%);
-  `}
+  ${props => props.isLogin !== true ? `
+  transform: translateX(-100%);`
+    : null}
 `;
 
 export const Overlay = styled.div`
@@ -185,9 +184,9 @@ export const Overlay = styled.div`
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(50%);
-  `}
+  ${props => (props.isLogin !== true ? `
+  transform: translateX(50%);`
+    : null)}
 `;
 
 export const Painel = styled.div` 
@@ -208,18 +207,18 @@ export const Painel = styled.div`
 export const EsquerdoPainel = styled(Painel)`
   transform: translateX(-20%);
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(0);
-  `}
+  ${props => props.isLogin !== true ? `
+  transform: translateX(0);`
+    : null}
 `;
 
 export const DireitoPainel = styled(Painel)`
   right: 0;
   transform: translateX(0);
 
-  ${({ isLogin }) => isLogin !== true && `
-    transform: translateX(20%);
-  `}
+  ${props => props.isLogin !== true ? `
+  transform: translateX(20%);`
+    : null}
 `;
 
 export const Paragraph = styled.p`

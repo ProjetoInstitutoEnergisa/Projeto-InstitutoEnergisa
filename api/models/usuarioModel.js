@@ -56,6 +56,7 @@ const UsuarioModel = sequelize.define(
     },
     documento_rne: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

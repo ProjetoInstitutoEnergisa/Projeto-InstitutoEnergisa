@@ -3,17 +3,16 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { Container, Title, PainelContainer, PainelHeader, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../SoliciteCard';
-import { useAuth } from '../../hooks/useAuth'; 
+import { useAuth } from '../../hooks/useAuth'; // Importe o hook useAuth
 
 // Define o elemento raiz da aplicação para acessibilidade
 Modal.setAppElement('#root');
 
 const Content = () => {
-    const { userId } = useAuth(); 
+    const { userId } = useAuth(); // Obtenha o userId do contexto de autenticação
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredSolicitations, setFilteredSolicitations] = useState([]);
-    const [selectedSolicitation, setSelectedSolicitation] = useState(null); 
 
     useEffect(() => {
         if (userId) {
@@ -43,8 +42,7 @@ const Content = () => {
         setFilteredSolicitations(filtered);
     };
 
-    const openModal = (solicitation) => {
-        setSelectedSolicitation(solicitation);
+    const openModal = () => {
         setModalIsOpen(true);
     };
 
@@ -81,8 +79,8 @@ const Content = () => {
                             cardTitle={solicitation.nome_projetoacao}
                             subTitle={solicitation.linguagem_artistica}
                             cidadeTitle={solicitation.nome_espaco}
-                            data={new Date().toLocaleDateString()}
-                            onClick={() => openModal(solicitation)} 
+                            status={solicitation.status}
+                            data={new Date(solicitation.data_criacao).toLocaleDateString()} // Adjust the date format here
                         />
                     ))}
                 </PainelCard>
@@ -110,7 +108,7 @@ const Content = () => {
                 }}
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
-                    <h3>Detalhes da Solicitação</h3>
+                    <h3>Suas Solicitações</h3>
                     <button onClick={closeModal} style={{
                         position: 'absolute',
                         padding: '8px',
@@ -120,15 +118,23 @@ const Content = () => {
                         color: '#3D978F',
                         fontSize: '20px',
                     }}>X</button>
+                    <SearchInput
+                        type="text"
+                        placeholder="Buscar por nome"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
                 </div>
-                {selectedSolicitation && (
-                    <div>
-                        <h2>{selectedSolicitation.nome_projetoacao}</h2>
-                        <p>{selectedSolicitation.descricao_proposta}</p>
-                        <p>{selectedSolicitation.cidade}</p>
-                        <p>{new Date(selectedSolicitation.data).toLocaleDateString()}</p>
-                    </div>
-                )}
+                {filteredSolicitations.map((solicitation, index) => (
+                    <SoliciteCard
+                        key={index}
+                        cardTitle={solicitation.nome_projetoacao}
+                        subTitle={solicitation.descricao_proposta}
+                        cidadeTitle={solicitation.cidade}
+                        status={solicitation.status}
+                        data={new Date(solicitation.data).toLocaleDateString()} // Adjust the date format here
+                    />
+                ))}
             </Modal>
         </Container>
     );

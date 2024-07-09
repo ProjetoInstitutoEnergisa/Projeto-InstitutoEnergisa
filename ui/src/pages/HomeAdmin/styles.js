@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
-export const ContainerRequest = styled.div`
+export const Container = styled.div`
     grid-area: CT; //Informando qual a posição no grid área;
     background-color: #F2F2F2; //Cor do Painel;
 `;
 
-export const TitleRequest = styled.h3`
+export const Title = styled.h3`
     padding: 30px; 
     color: #3D978F;
     letter-spacing: 0.5px;
 `;
 
-export const PainelRequest = styled.div`
+export const PainelContainer = styled.div`
     height: 500px; //Altura do Painel Container;
     width: 1200px; //Largura do Painel Container;
     background-color: #EBEBEB;
@@ -23,7 +23,7 @@ export const PainelRequest = styled.div`
     flex-direction: column;
 `;
 
-export const PainelCardRequest = styled.div`
+export const Painel = styled.div`
     background-color: #EBEBEB;
     border-radius: 15px;
 
@@ -33,12 +33,12 @@ export const PainelCardRequest = styled.div`
 `;
 
 
-export const CardRequest = styled.div`
+export const PainelCard = styled.div`
     margin-top: 15px;
 `;
 
 
-export const ButtonRequest = styled.div`
+export const PainelButton = styled.div`
     display: flex;
     align-items: center;
 

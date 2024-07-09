@@ -63,7 +63,7 @@ usuarioRoute.get('/:id', obterUsuarioPorId);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -86,10 +86,13 @@ usuarioRoute.get('/:id', obterUsuarioPorId);
  *                 type: string
  *               comprovante_residencia:
  *                 type: string
+ *                 format: binary
  *               documento_identificacao:
  *                 type: string
+ *                 format: binary
  *               documento_rne:
  *                 type: string
+ *                 format: binary
  *             required:
  *               - nome_completo
  *               - email
@@ -110,6 +113,7 @@ usuarioRoute.get('/:id', obterUsuarioPorId);
  *         description: Erro interno ao criar usuário
  */
 usuarioRoute.post('/', criarUsuario);
+
 
 
 /**

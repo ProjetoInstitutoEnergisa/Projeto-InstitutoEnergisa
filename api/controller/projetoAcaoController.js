@@ -38,36 +38,28 @@ const listarProjetosPorUsuario = async (req, res) => {
 
 const criarProjeto = async (req, res) => {
   try {
-    // Salvar URL do arquivo de descrição da proposta
-    const descricao_proposta_url = req.files['descricao_proposta'][0].location;
+    const descricao_proposta_url = req.files['descricao_proposta'][0]?.location;
+    const fotos_imagens_urls = req.files['fotos_imagens']?.map(file => file.location) || [];
 
-    // Salvar URLs das imagens
-    const fotos_imagens_urls = req.files['fotos_imagens'].map(file => file.location);
+    const { id_usuario, nome_projetoacao, linguagem_artistica, duvidas, termo, nome_espaco } = req.body;
 
-    const { id_usuario, nome_projetoacao, linguagem_artistica, duvidas, termo, nome_espaco, endereco_espaco } = req.body;
-
-    // Verificar se todos os campos obrigatórios estão presentes
-    const camposObrigatorios = ['nome_projetoacao', 'linguagem_artistica', 'termo', 'nome_espaco', 'endereco_espaco'];
-    for (const campo of camposObrigatorios) {
-      if (!req.body[campo]) {
-        return res.status(400).json({ error: `O campo ${campo} é obrigatório.` });
-      }
-    }
-
-    // Criar novo projeto
     const novoProjeto = await ProjetoAcao.create({
       id_usuario,
       nome_projetoacao,
       linguagem_artistica,
       duvidas,
-      termo: termo === 'true', 
+      termo: termo === 'true',
       nome_espaco,
-      endereco_espaco,
-      descricao_proposta: req.files['descricao_proposta'][0].location,
-      fotos_imagens: req.files['fotos_imagens'].map(file => file.location).join(','),
+      descricao_proposta: descricao_proposta_url,
+      fotos_imagens: fotos_imagens_urls.join(','),
     });
 
-    res.status(201).json(novoProjeto);
+    // Retornar as URLs dos arquivos na resposta
+    res.status(201).json({
+      message: 'Projeto criado com sucesso.',
+      descricao_proposta: descricao_proposta_url,
+      fotos_imagens: fotos_imagens_urls,
+    });
   } catch (error) {
     console.error('Erro ao criar projeto:', error);
     res.status(500).json({ message: 'Erro ao criar projeto', error: error.message });
