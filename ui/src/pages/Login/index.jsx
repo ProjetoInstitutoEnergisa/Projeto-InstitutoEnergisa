@@ -80,9 +80,9 @@ const FormLogin = () => {
             if (response.status === 201) {
                 toast.success(
                     `Cadastro realizado com sucesso! Seja bem-vindo(a), ${response.data.nome_completo}!`,
-                    { position: 'top-left', autoClose: 4000 }
+                    { position: 'top-left', autoClose: 3000 }
                 );
-                setTimeout(() => navigate('/login'), 4000);
+                setTimeout(() => navigate('/login'), 3000);
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar usuário. Tente novamente.');
             }

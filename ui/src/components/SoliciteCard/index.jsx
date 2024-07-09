@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Container } from './styles';
 
-const SoliciteCard = ({ cardTitle, subTitle, cidadeTitle, status, data }) => {
+const SoliciteCard = ({ cardTitle, subTitle, cidadeTitle, status, data, onClick, statusColor }) => {
   return (
-    <Container>
-      <div>
+    <Container onClick={onClick} style={{ backgroundColor: statusColor}}>
+      <div >
         <span>{cardTitle}</span>
         <small>{subTitle}</small>
       </div>
@@ -22,6 +22,8 @@ SoliciteCard.propTypes = {
   cidadeTitle: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   data: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  statusColor: PropTypes.string,
 };
 
 export default SoliciteCard;

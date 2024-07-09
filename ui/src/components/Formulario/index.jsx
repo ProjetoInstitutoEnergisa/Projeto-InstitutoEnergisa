@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
-import { FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
-  DisplayData } from './styles';
+import {
+  FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
+  DisplayData
+} from './styles';
 
 const FormularioInscricao = ({ closeModal }) => {
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
@@ -41,14 +43,14 @@ const FormularioInscricao = ({ closeModal }) => {
       formData.append('termo', data.termo);
       formData.append('status', 'Em análise');
       formData.append('data_criacao', new Date().toISOString());
-  
+
       // Enviar todos os dados em uma única requisição
       await axios.post('http://localhost:3000/api/projetosAcoes', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       // Exibir mensagem de sucesso e limpar o formulário após envio
       alert('Projeto cadastrado com sucesso!');
       closeModal(); // Fechar modal após envio
@@ -69,7 +71,7 @@ const FormularioInscricao = ({ closeModal }) => {
       }
     }
   };
-  
+
   return (
     <FormContainer>
       <FormTitle>FORMULÁRIO DE SOLICITAÇÃO</FormTitle>
@@ -95,23 +97,6 @@ const FormularioInscricao = ({ closeModal }) => {
           <div>
             <Label>Gênero - Raça/Etnia:</Label>
             <DisplayData>{userData ? `${userData.genero} - ${userData.raca_etnia}` : ''}</DisplayData>
-          </div>
-          <div>
-            {userData?.documento_identificacao ? (
-              <div>
-                <Label>Documento CPF/RG:</Label>
-                <DisplayData>{userData?.documento_identificacao}</DisplayData>
-              </div>
-            ) : (
-              <div>
-                <Label>Documento RNE:</Label>
-                <DisplayData>{userData?.documento_rne}</DisplayData>
-              </div>
-            )}
-          </div>
-          <div>
-            <Label>Comprovante de Residência:</Label>
-            <DisplayData style={{ fontSize: '14px', maxWidth: '300px' }}>{userData?.comprovante_residencia}</DisplayData>
           </div>
         </FormField>
 
@@ -149,9 +134,9 @@ const FormularioInscricao = ({ closeModal }) => {
             <Label htmlFor="nome_espaco">Espaço Cultural do Instituto Energisa:</Label>
             <Select {...register("nome_espaco", { required: true })} id="nome_espaco">
               <option value="">Selecione...</option>
-              <option value="Cataguases">Cataguases, MG</option>
-              <option value="JoaoPessoa">João Pessoa, PB</option>
-              <option value="NovaFriburgo">Nova Friburgo, RJ</option>
+              <option value="Cataguases, MG">Cataguases, MG</option>
+              <option value="João Pessoa, PB">João Pessoa, PB</option>
+              <option value="Nova Friburgo, RJ">Nova Friburgo, RJ</option>
             </Select>
             {errors.nome_espaco && <ErrorMessage>Seleção de espaço é obrigatória.</ErrorMessage>}
           </div>

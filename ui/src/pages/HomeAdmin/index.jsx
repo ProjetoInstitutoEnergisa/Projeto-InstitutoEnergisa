@@ -1,54 +1,130 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import LayoutAdmin from "../../components/LayoutAdmin";
 import ContentAdmin from "../../components/ContentAdmin";
-
-import { Container, Title, PainelContainer, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../../components/SoliciteCard';
 import Modal from 'react-modal';
+import axios from 'axios';
+import { Container, Title, PainelContainer, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 
 Modal.setAppElement('#root');
 
 const Request = () => {
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterDate, setFilterDate] = useState('');
+    const [solicitations, setSolicitations] = useState([]);
+    const [selectedSolicitation, setSelectedSolicitation] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null); // Estado para armazenar os dados do usuário vinculado ao projeto
 
-    // Exemplo de dados de solicitação
-    const solicitations = [
-        { cardTitle: "Nos do morro", subTitle: "Cinema", cidadeTitle: "Cataguases", data: "01/01/2021" },
-        { cardTitle: "Nos do morro", subTitle: "Cinema", cidadeTitle: "Cataguases", data: "01/01/2021" },
-        { cardTitle: "Nos do morro", subTitle: "Cinema", cidadeTitle: "Cataguases", data: "01/01/2021" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
-        { cardTitle: "Exposição XYZ", subTitle: "Exposição", cidadeTitle: "Rio de Janeiro", data: "03/03/2022" },
+    useEffect(() => {
+        fetchSolicitations();
+    }, []);
 
-    ];
+    const fetchSolicitations = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/projetosAcoes'); // Endpoint do seu backend para listar todos os projetos/solicitações
+            setSolicitations(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar solicitações:', error);
+        }
+    };
+
+    const fetchUserDetails = async (userId) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/api/usuarios/${userId}`); // Endpoint do seu backend para obter detalhes do usuário
+            setSelectedUser(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar detalhes do usuário:', error);
+        }
+    };
 
     // Função para filtrar por nome
     const filteredSolicitations = useMemo(() => {
         return solicitations.filter(solicitation =>
-            solicitation.cardTitle.toLowerCase().includes(searchTerm.toLowerCase())
+            solicitation.nome_projetoacao.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [searchTerm, solicitations]);
 
     // Função para filtrar por data
     const filteredByDateSolicitations = useMemo(() => {
         if (!filterDate) return filteredSolicitations;
-        return filteredSolicitations.filter(solicitation => solicitation.data === filterDate);
+        return filteredSolicitations.filter(solicitation => solicitation.data_criacao === filterDate);
     }, [filterDate, filteredSolicitations]);
 
-    const openModal = () => {
+    // Ordena as solicitações por status: Em análise, Aprovado, Rejeitado
+    const sortedSolicitations = useMemo(() => {
+        const pending = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Em análise');
+        const approved = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Aprovado');
+        const reenviado = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Reenviado');
+        return [...pending, ...approved, ...reenviado];
+    }, [filteredByDateSolicitations]);
+
+    const openModal = async (solicitation) => {
+        console.log('Abrindo modal para a solicitação:', solicitation); // Log para depuração
+        setSelectedSolicitation(solicitation);
         setModalIsOpen(true);
+
+        // Busca os detalhes do usuário vinculado ao projeto
+        await fetchUserDetails(solicitation.id_usuario);
     };
 
     const closeModal = () => {
         setModalIsOpen(false);
+        setSelectedSolicitation(null);
+        setSelectedUser(null); // Limpa os dados do usuário ao fechar o modal
+    };
+
+    const handleApprove = async () => {
+        try {
+            // Atualiza o status do projeto no backend
+            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Aprovado' });
+            // Atualiza o status localmente
+            setSelectedSolicitation(prevState => ({
+                ...prevState,
+                status: 'Aprovado'
+            }));
+            // Fecha o modal
+            closeModal();
+        } catch (error) {
+            console.error('Erro ao aprovar projeto:', error);
+        }
+    };
+
+    const handleReject = async () => {
+        try {
+            // Atualiza o status do projeto no backend
+            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Rejeitado' });
+            // Atualiza o status localmente
+            setSelectedSolicitation(prevState => ({
+                ...prevState,
+                status: 'Rejeitado'
+            }));
+            // Fecha o modal
+            closeModal();
+        } catch (error) {
+            console.error('Erro ao rejeitar projeto:', error);
+        }
+    };
+
+    const handleResend = async () => {
+        try {
+            // Atualiza o status do projeto no backend
+            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Reenviado' });
+            // Atualiza o status localmente
+            setSelectedSolicitation(prevState => ({
+                ...prevState,
+                status: 'Reenviado'
+            }));
+            // Fecha o modal
+            closeModal();
+        } catch (error) {
+            console.error('Erro ao reenviar projeto:', error);
+        }
     };
 
     return (
         <LayoutAdmin>
             <ContentAdmin>
-
                 <Container>
                     <Title>
                         Solicitações
@@ -66,70 +142,105 @@ const Request = () => {
                             </PainelButton>
                         </Painel>
 
-
                         <PainelCard>
-                            {filteredSolicitations.map((solicitation, index) => (
+                            {sortedSolicitations.map((solicitation, index) => (
                                 <SoliciteCard
                                     key={index}
-                                    cardTitle={solicitation.cardTitle}
-                                    subTitle={solicitation.subTitle}
-                                    cidadeTitle={solicitation.cidadeTitle}
-                                    data={solicitation.data}
+                                    cardTitle={solicitation.nome_projetoacao}
+                                    subTitle={solicitation.linguagem_artistica}
+                                    cidadeTitle={solicitation.nome_espaco}
+                                    status={solicitation.status}
+                                    data={new Date(solicitation.data_criacao).toLocaleDateString()} // Ajuste o formato da data aqui
+                                    onClick={() => openModal(solicitation)} // Passa a função openModal para o SoliciteCard
+                                    statusColor={
+                                        solicitation.status === 'Em análise' ? '#efa02a' :
+                                        solicitation.status === 'Aprovado' ? 'green' :
+                                        solicitation.status === 'Rejeitado' ? 'red' :
+                                        solicitation.status === 'Reenviado' ? 'blue' :
+                                        '#F2F2F2' // Cor padrão
+                                    }
                                 />
                             ))}
                         </PainelCard>
                     </PainelContainer>
 
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        contentLabel="Solicitações"
-                        style={{
-                            content: {
-                                color: '#3D987F',
-                                backgroundColor: '#F2F2F2',
-                                top: '50%',
-                                borderRadius: '15px',
-                                left: '50%',
-                                right: 'auto',
-                                bottom: 'auto',
-                                transform: 'translate(-50%, -50%)',
-                                width: '80%',
-                                maxHeight: '80%',
-                                overflow: 'auto',
-                                padding: '12px',
-                            }
-                        }}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
-                            <h3>Suas Solicitações</h3>
-                            <button onClick={closeModal} style={{
-                                position: 'absolute',
-                                padding: '8px',
-                                right: '8px',
-                                background: 'none',
-                                border: 'none',
-                                color: '#3D978F',
-                                fontSize: '20px',
-                            }}>X</button>
-                            <SearchInput
-                                type="text"
-                                placeholder="Buscar por nome"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                        {filteredByDateSolicitations.map((solicitation, index) => (
-                            <SoliciteCard
-                                key={index}
-                                cardTitle={solicitation.cardTitle}
-                                subTitle={solicitation.subTitle}
-                                cidadeTitle={solicitation.cidadeTitle}
-                                data={solicitation.data}
-                            />
-                        ))}
-                    </Modal>
-                </Container >
+                    {selectedSolicitation && (
+                        <Modal
+                            isOpen={modalIsOpen}
+                            onRequestClose={closeModal}
+                            contentLabel="Detalhes da Solicitação"
+                            style={{
+                                content: {
+                                    color: '#3D987F',
+                                    backgroundColor: '#F2F2F2',
+                                    top: '50%',
+                                    borderRadius: '15px',
+                                    left: '50%',
+                                    right: 'auto',
+                                    bottom: 'auto',
+                                    transform: 'translate(-50%, -50%)',
+                                    width: '80%',
+                                    maxHeight: '80%',
+                                    overflow: 'auto',
+                                    padding: '12px',
+                                }
+                            }}
+                        >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
+                                <h3>Detalhes do Projeto</h3>
+                                <button onClick={closeModal} style={{
+                                    position: 'absolute',
+                                    padding: '8px',
+                                    right: '8px',
+                                    background: 'none',
+                                    border: 'none',
+                                    color: '#3D978F',
+                                    fontSize: '20px',
+                                }}>X</button>
+                            </div>
+                            <div>
+                                <p><strong>Nome do Projeto:</strong> {selectedSolicitation.nome_projetoacao}</p>
+                                <p><strong>Linguagem Artística:</strong> {selectedSolicitation.linguagem_artistica}</p>
+                                <p><strong>Nome do Espaço:</strong> {selectedSolicitation.nome_espaco}</p>
+                                <p><strong>Status:</strong> {selectedSolicitation.status}</p>
+                                <p><strong>Data de Criação:</strong> {new Date(selectedSolicitation.data_criacao).toLocaleDateString()}</p>
+                                <p><strong>Descrição:</strong> 
+                                    <a href={selectedSolicitation.descricao_proposta} download>
+                                        <button style={{ backgroundColor: 'blue', color: 'white', padding: '2px', borderRadius: '5px' }}>
+                                            Download Descrição
+                                        </button>
+                                    </a>
+                                </p>
+                                {selectedUser && (
+                                    <div style={{ marginTop: '20px' }}>
+                                        <h3>Dados do Usuário</h3>
+                                        <p><strong>Nome Completo:</strong> {selectedUser.nome_completo}</p>
+                                        <p><strong>Email:</strong> {selectedUser.email}</p>
+                                        <p><strong>Telefone:</strong> {selectedUser.telefone}</p>
+                                        <p><strong>Gênero:</strong> {selectedUser.genero}</p>
+                                        <p><strong>Raça/Etnia:</strong> {selectedUser.raca_etnia}</p>
+                                        <p><strong>Cidade:</strong> {selectedUser.cidade}</p>
+                                        <p><strong>Estado:</strong> {selectedUser.estado}</p>
+                                        {selectedUser.comprovante_residencia && (
+                                            <p><strong>Comprovante de Residência:</strong> <a href={selectedUser.comprovante_residencia} download>Download</a></p>
+                                        )}
+                                        {selectedUser.documento_identificacao && (
+                                            <p><strong>Documento de Identificação:</strong> <a href={selectedUser.documento_identificacao} download>Download</a></p>
+                                        )}
+                                        {selectedUser.documento_rne && (
+                                            <p><strong>Documento RNE:</strong> <a href={selectedUser.documento_rne} download>Download</a></p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+                                <button onClick={handleApprove} style={{ backgroundColor: 'green', color: 'white', padding: '10px', borderRadius: '5px' }}>Aprovar</button>
+                                <button onClick={handleReject} style={{ backgroundColor: 'red', color: 'white', padding: '10px', borderRadius: '5px' }}>Rejeitar</button>
+                                <button onClick={handleResend} style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px' }}>Reenviar</button>
+                            </div>
+                        </Modal>
+                    )}
+                </Container>
             </ContentAdmin>
         </LayoutAdmin>
     );
