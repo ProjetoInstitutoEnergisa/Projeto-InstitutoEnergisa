@@ -4,30 +4,9 @@ import axios from "axios";
 import Image from '../../assets/logoInstituto.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { 
-    Container, 
-    CadastroContainer, 
-    Form, 
-    FormCadastro, 
-    Title, 
-    Input, 
-    Button, 
-    LoginContainer, 
-    Anchor, 
-    OverlayContainer, 
-    Overlay, 
-    Painel, 
-    EsquerdoPainel,
-    DireitoPainel, 
-    Paragraph, 
-    LeftButton, 
-    SubTitle, 
-    SubTitleNoMargin, 
-    ImageContainer, 
-    Body, 
-    TitleTwo, 
-    Select 
-} from "./styles";
+import { TextField, MenuItem, InputAdornment } from '@mui/material';
+import { Container, CadastroContainer, Form, FormCadastro, Title, LoginContainer, Anchor, OverlayContainer, Overlay,
+    EsquerdoPainel, DireitoPainel, Paragraph, LeftButton, SubTitle, SubTitleNoMargin, ImageContainer, Body, TitleTwo, Button } from "./styles";
 import { useAuth } from "../../hooks/useAuth"; // Assumindo que você já tem este hook implementado
 
 const FormLogin = () => {
@@ -80,18 +59,18 @@ const FormLogin = () => {
         try {
             console.log('Dados enviados para cadastro:', userData); // Verifica os dados que estão sendo enviados
             const response = await axios.post('http://localhost:3000/api/usuarios', userData);
-            
+
             console.log('Resposta do servidor:', response); // Verifica a resposta do servidor
-            
+
             if (response.status === 201) {
                 toast.success(
                     `Cadastro realizado com sucesso! Seja bem-vindo(a), ${response.data.nome_completo}!`,
-                    { position:'top-left', autoClose: 4000 }
+                    { position: 'top-left', autoClose: 4000 }
                 );
                 setTimeout(() => navigate('/login'), 4000);
             } else {
                 // Lida com respostas de erro do servidor (ex: 400 Bad Request)
-                toast.error(response.data.message || 'Erro ao cadastrar usuário. Tente novamente.'); 
+                toast.error(response.data.message || 'Erro ao cadastrar usuário. Tente novamente.');
             }
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error); // Exibe o erro no console
@@ -107,13 +86,12 @@ const FormLogin = () => {
             }
         }
     };
-    
-    
+
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, files } = e.target;
         setUserData((prevUserData) => ({
             ...prevUserData,
-            [name]: value
+            [name]: type === 'file' ? files[0] : value
         }));
     };
 
@@ -125,75 +103,203 @@ const FormLogin = () => {
         <>
             <ToastContainer />
             <Body>
-                <SubTitle>Bem vindo ao Formulário de Inscrição</SubTitle>
+                <SubTitle>Bem-vindo ao Formulário de Inscrição</SubTitle>
                 <SubTitleNoMargin><h4>Instituto Energisa</h4></SubTitleNoMargin>
                 <Container>
                     <CadastroContainer isLogin={isLogin}>
                         <FormCadastro onSubmit={handleCadastro}>
                             <Title>Dados do Usuário</Title><br />
-                            <Input type="text" name="nome_completo" placeholder="Seu Nome" value={userData.nome_completo} onChange={handleInputChange} />
-                            <Input type="email" name="email" placeholder="Email" value={userData.email} onChange={handleInputChange} />
-                            <Input type="password" name="senha" placeholder="Senha" value={userData.senha} onChange={handleInputChange} />
-                            <Input type="text" name="telefone" placeholder="Telefone" value={userData.telefone} onChange={handleInputChange} />
-                            <Select name="genero" value={userData.genero} onChange={handleInputChange}>
-                                <option value="" disabled>Selecione o Gênero</option>
-                                <option value="Masculino">Masculino</option>
-                                <option value="Feminino">Feminino</option>
-                                <option value="Outro">Outro</option>
-                            </Select>
-                            <Select name="raca_etnia" value={userData.raca_etnia} onChange={handleInputChange}>
-                                <option value="" disabled>Selecione a Raça/Etnia</option>
-                                <option value="Branco">Branco</option>
-                                <option value="Negro">Negro</option>
-                                <option value="Pardo">Pardo</option>
-                                <option value="Amarelo">Amarelo</option>
-                                <option value="Indígena">Indígena</option>
-                                <option value="Outro">Outro</option>
-                            </Select>
-                            <Input type="text" name="cidade" placeholder="Cidade" value={userData.cidade} onChange={handleInputChange} />
-                            <Select name="estado" value={userData.estado} onChange={handleInputChange}>
-                                <option value="" disabled>Selecione o Estado</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
-                            </Select>
-                            <Input type="text" name="comprovante_residencia" placeholder="Comprovante de Residência" value={userData.comprovante_residencia} onChange={handleInputChange} />
-                            <Input type="text" name="documento_identificacao" placeholder="Documento de Identificação" value={userData.documento_identificacao} onChange={handleInputChange} />
-                            <Input type="text" name="documento_rne" placeholder="Documento RNE" value={userData.documento_rne} onChange={handleInputChange} />
+                            <TextField
+                                label="Nome Completo"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="nome_completo"
+                                value={userData.nome_completo}
+                                onChange={handleInputChange}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '40px',
+                                    },
+                                }}
+                            />
+                            <TextField
+                                label="Email"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="email"
+                                type="email"
+                                value={userData.email}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                label="Senha"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="senha"
+                                type="password"
+                                value={userData.senha}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                label="Telefone"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="telefone"
+                                value={userData.telefone}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                select
+                                label="Gênero"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="genero"
+                                value={userData.genero}
+                                onChange={handleInputChange}
+                            >
+                                <MenuItem value="" disabled>Selecione o Gênero</MenuItem>
+                                <MenuItem value="Masculino">Masculino</MenuItem>
+                                <MenuItem value="Feminino">Feminino</MenuItem>
+                                <MenuItem value="Outro">Outro</MenuItem>
+                            </TextField>
+                            <TextField
+                                select
+                                label="Raça/Etnia"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="raca_etnia"
+                                value={userData.raca_etnia}
+                                onChange={handleInputChange}
+                            >
+                                <MenuItem value="" disabled>Selecione a Raça/Etnia</MenuItem>
+                                <MenuItem value="Branco">Branco</MenuItem>
+                                <MenuItem value="Negro">Negro</MenuItem>
+                                <MenuItem value="Pardo">Pardo</MenuItem>
+                                <MenuItem value="Amarelo">Amarelo</MenuItem>
+                                <MenuItem value="Indígena">Indígena</MenuItem>
+                                <MenuItem value="Outro">Outro</MenuItem>
+                            </TextField>
+                            <TextField
+                                label="Cidade"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="cidade"
+                                value={userData.cidade}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                select
+                                label="Estado"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="estado"
+                                value={userData.estado}
+                                onChange={handleInputChange}
+                            >
+                                <MenuItem value="" disabled>Selecione o Estado</MenuItem>
+                                <MenuItem value="AC">Acre</MenuItem>
+                                <MenuItem value="AL">Alagoas</MenuItem>
+                                <MenuItem value="AP">Amapá</MenuItem>
+                                <MenuItem value="AM">Amazonas</MenuItem>
+                                <MenuItem value="BA">Bahia</MenuItem>
+                                <MenuItem value="CE">Ceará</MenuItem>
+                                <MenuItem value="DF">Distrito Federal</MenuItem>
+                                <MenuItem value="ES">Espírito Santo</MenuItem>
+                                <MenuItem value="GO">Goiás</MenuItem>
+                                <MenuItem value="MA">Maranhão</MenuItem>
+                                <MenuItem value="MT">Mato Grosso</MenuItem>
+                                <MenuItem value="MS">Mato Grosso do Sul</MenuItem>
+                                <MenuItem value="MG">Minas Gerais</MenuItem>
+                                <MenuItem value="PA">Pará</MenuItem>
+                                <MenuItem value="PB">Paraíba</MenuItem>
+                                <MenuItem value="PR">Paraná</MenuItem>
+                                <MenuItem value="PE">Pernambuco</MenuItem>
+                                <MenuItem value="PI">Piauí</MenuItem>
+                                <MenuItem value="RJ">Rio de Janeiro</MenuItem>
+                                <MenuItem value="RN">Rio Grande do Norte</MenuItem>
+                                <MenuItem value="RS">Rio Grande do Sul</MenuItem>
+                                <MenuItem value="RO">Rondônia</MenuItem>
+                                <MenuItem value="RR">Roraima</MenuItem>
+                                <MenuItem value="SC">Santa Catarina</MenuItem>
+                                <MenuItem value="SP">São Paulo</MenuItem>
+                                <MenuItem value="SE">Sergipe</MenuItem>
+                                <MenuItem value="TO">Tocantins</MenuItem>
+                            </TextField>
+                            <TextField
+                                label="Comprovante de Residência"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="comprovante_residencia"
+                                type="file"
+                                InputLabelProps={{ shrink: true }}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                label="Documento de Identificação"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="documento_identificacao"
+                                type="file"
+                                InputLabelProps={{ shrink: true }}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                label="Documento RNE"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="documento_rne"
+                                type="file"
+                                InputLabelProps={{ shrink: true }}
+                                onChange={handleInputChange}
+                            />
                             <Button type="submit">Cadastre-se</Button>
                         </FormCadastro>
                     </CadastroContainer>
                     <LoginContainer isLogin={isLogin}>
                         <Form onSubmit={handleLogin}>
                             <Title>Olá! Faça seu Login.</Title>
-                            <Input type="email" name="email" placeholder="Email" value={userData.email} onChange={handleInputChange} />
-                            <Input type="password" name="senha" placeholder="Senha" value={userData.senha} onChange={handleInputChange} />
+                            <TextField
+                                label="Email"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="email"
+                                type="email"
+                                value={userData.email}
+                                onChange={handleInputChange}
+                            />
+                            <TextField
+                                label="Senha"
+                                variant="outlined"
+                                fullWidth
+                                margin="normal"
+                                name="senha"
+                                type="password"
+                                value={userData.senha}
+                                onChange={handleInputChange}
+                                
+                            />
                             <Anchor href="#">Esqueceu sua Senha?</Anchor>
-                            <Button type="submit">Entrar</Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                style={{ marginTop: '16px' }}
+                            >
+                                Entrar
+                            </Button>
                         </Form>
                     </LoginContainer>
                     <OverlayContainer isLogin={isLogin}>

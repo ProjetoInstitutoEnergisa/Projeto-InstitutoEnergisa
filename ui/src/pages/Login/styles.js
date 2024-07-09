@@ -39,11 +39,11 @@ export const CadastroContainer = styled.div`
   z-index: 1;
   overflow-y: auto;
 
-  ${props => props.isLogin !== true ? `
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 5;`
-    : null}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+  `}
 `;
 
 export const LoginContainer = styled.div`
@@ -55,9 +55,9 @@ export const LoginContainer = styled.div`
   width: 50%;
   z-index: 2;
 
-  ${props => (props.isLogin !== true ? `
-  transform: translateX(100%);`
-    : null)}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(100%);
+  `}
 `;
 
 export const Form = styled.form`
@@ -137,9 +137,10 @@ export const Button = styled.button`
   text-transform: uppercase;
   transition: transform 80ms ease-in;
 
-  &:active{
+  &:active {
     transform: scale(0.95);
   }
+
   &:focus {
     outline: none;
   }
@@ -166,9 +167,9 @@ export const OverlayContainer = styled.div`
   transition: transform 0.6s ease-in-out;
   z-index: 100;
 
-  ${props => props.isLogin !== true ? `
-  transform: translateX(-100%);`
-    : null}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(-100%);
+  `}
 `;
 
 export const Overlay = styled.div`
@@ -184,9 +185,9 @@ export const Overlay = styled.div`
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
 
-  ${props => (props.isLogin !== true ? `
-  transform: translateX(50%);`
-    : null)}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(50%);
+  `}
 `;
 
 export const Painel = styled.div` 
@@ -207,18 +208,18 @@ export const Painel = styled.div`
 export const EsquerdoPainel = styled(Painel)`
   transform: translateX(-20%);
 
-  ${props => props.isLogin !== true ? `
-  transform: translateX(0);`
-    : null}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(0);
+  `}
 `;
 
 export const DireitoPainel = styled(Painel)`
   right: 0;
   transform: translateX(0);
 
-  ${props => props.isLogin !== true ? `
-  transform: translateX(20%);`
-    : null}
+  ${({ isLogin }) => isLogin !== true && `
+    transform: translateX(20%);
+  `}
 `;
 
 export const Paragraph = styled.p`
