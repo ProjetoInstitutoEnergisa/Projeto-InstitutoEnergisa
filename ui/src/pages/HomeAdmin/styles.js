@@ -10,6 +10,7 @@ export const Title = styled.h3`
     padding: 30px; 
     color: #3D978F;
     letter-spacing: 0.5px;
+    margin-left: 10px;
 `;
 
 export const PainelContainer = styled.div`
@@ -103,7 +104,7 @@ export const SearchInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   position: relative;  
-  margin-right: 32px;
+  margin-right: 40px;
   text-align: center;
   letter-spacing: 0.5px;
   

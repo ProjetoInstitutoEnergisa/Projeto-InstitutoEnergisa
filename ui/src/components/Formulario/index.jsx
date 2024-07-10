@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
-import {
-  FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
-  DisplayData
-} from './styles';
+import { FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
+  DisplayData } from './styles';
 
 const FormularioInscricao = ({ closeModal }) => {
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Container, Profile,  LogoInst, RelativeContainer, UserImg, Menu, MenuItem, CardPerfil } from "./styles"
 
-import photoProfile from "../../assets/mode-portrait.svg"
+import photoProfile from "../../assets/mode-portrait.svg";
 import logo from "../../assets/logoInstituto.png"
 
 const MainHeader = () => {

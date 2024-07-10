@@ -1,72 +1,67 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  grid-area: CT; /* Informando qual a posição no grid área */
-  background-color: #F2F2F2; /* Cor do Painel */
+    grid-area: CT; //Informando qual a posição no grid área;
+    background-color: #F2F2F2; //Cor do Painel;
 `;
 
 export const Title = styled.h4`
-  padding: 30px;
-  color: #3D978F;
+    padding: 30px; 
+    color: #3D978F;
 `;
 
 export const PainelContainer = styled.div`
-  height: 500px; /* Altura do Painel Container */
-  width: 1200px; /* Largura do Painel Container */
-  background-color: #EBEBEB;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  margin-left: 44px;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: 1200px) {
-    width: 100%;
-    margin-left: 0;
-  }
-
-  @media (max-width: 768px) {
-    height: auto;
-    padding: 10px;
-  }
+    height: 500px; //Altura do Painel Container;
+    width: 1200px; //Largura do Painel Container;
+    background-color: #EBEBEB;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    margin-left: 44px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const Painel = styled.div`
-  background-color: #EBEBEB;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+    background-color: #EBEBEB;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 `;
 
+
 export const PainelCard = styled.div`
-  margin-top: 15px;
+    margin-top: 15px;
 `;
 
 export const PainelHeader = styled.div`
-  margin-left: 30px;
-  color: #3D978F;
+    margin-left: 30px;
+
+    color: #3D978F;
+
 `;
 
 export const PainelButton = styled.div`
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  > button {
-    background-color: #3D978F;
-    padding: 8px 16px;
-    border-radius: 5px;
-    color: #F2F2F2;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: #3D978FCC; /* Mais escuro para efeito de hover */
-    }
-  }        
+    > button {
+        background-color: #3D978F;
+        padding: 8px 16px;
+        border-radius: 5px;
+        color: #F2F2F2;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #3D978FCC; /* Mais escuro para efeito de hover */
+        }
+    }        
 `;
 
 export const Modal = styled.div`
@@ -77,10 +72,6 @@ export const Modal = styled.div`
   padding: 10px;
   display: flex; /* Layout flexível para alinhar conteúdo */
   flex-direction: column; 
-
-  @media (max-width: 768px) {
-    width: 90%;
-  }
 
   h3 {
     margin-bottom: 15px;
@@ -119,16 +110,11 @@ export const SearchInput = styled.input`
   margin-right: 32px;
   text-align: center;
   letter-spacing: 0.5px;
+  
 
   &:focus { 
     outline: none;
     border-color: #3D978F;
     box-shadow: 0 0 5px #3D978F;
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 10px;
   }
 `;

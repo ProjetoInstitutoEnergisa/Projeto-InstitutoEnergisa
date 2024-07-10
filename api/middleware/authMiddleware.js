@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const autenticarUsuario = (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
   if (!token) {
@@ -7,11 +5,15 @@ const autenticarUsuario = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'seuSegredoJWT');
+    const decoded = jwt.verify(token, segredoJWT);
     req.usuario = decoded;
     next();
   } catch (e) {
-    res.status(401).json({ message: 'Autenticação inválida' });
+    if (e instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ message: 'Sessão expirada, faça login novamente' });
+    } else {
+      return res.status(401).json({ message: 'Token inválido' });
+    }
   }
 };
 

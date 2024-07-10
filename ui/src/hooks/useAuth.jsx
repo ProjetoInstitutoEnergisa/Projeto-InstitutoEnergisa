@@ -1,21 +1,44 @@
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [logged, setLogged] = useState(false);
   const [role, setRole] = useState('');
-  const [userId, setUserId] = useState(''); // Estado do ID do usuário
+  const [userId, setUserId] = useState('');
 
-  const login = () => setLogged(true);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedRole = localStorage.getItem('role');
+    const storedUserId = localStorage.getItem('userId');
+
+    if (token && storedRole && storedUserId) {
+      setLogged(true);
+      setRole(storedRole);
+      setUserId(storedUserId);
+    }
+  }, []);
+
+  const login = (token, role, userId) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role);
+    localStorage.setItem('userId', userId);
+    setLogged(true);
+    setRole(role);
+    setUserId(userId);
+  };
+
   const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('userId');
     setLogged(false);
     setRole('');
-    setUserId(''); // Limpar também o ID do usuário ao fazer logout
+    setUserId('');
   };
 
   return (
-    <AuthContext.Provider value={{ logged, role, userId, setUserId, login, logout, setRole }}>
+    <AuthContext.Provider value={{ logged, role, userId, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

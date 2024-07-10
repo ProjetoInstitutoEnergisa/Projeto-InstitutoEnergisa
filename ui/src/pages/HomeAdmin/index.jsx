@@ -53,9 +53,9 @@ const Request = () => {
 
     // Ordena as solicitações por status: Em análise, Aprovado, Rejeitado
     const sortedSolicitations = useMemo(() => {
-        const pending = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Em análise');
+        const pending = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Em Análise');
         const approved = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Aprovado');
-        const reenviado = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Reenviado');
+        const reenviado = filteredByDateSolicitations.filter(solicitation => solicitation.status === 'Reenviar');
         return [...pending, ...approved, ...reenviado];
     }, [filteredByDateSolicitations]);
 
@@ -78,11 +78,21 @@ const Request = () => {
         try {
             // Atualiza o status do projeto no backend
             await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Aprovado' });
+            
+            // Envia a notificação por email
+            await axios.post('http://localhost:3000/api/notificacoes/enviar', {
+                id_usuario: selectedSolicitation.id_usuario,
+                id_projetoacao: selectedSolicitation.id_projetoacao,
+                status: 'Aprovado'
+            });
+    
+            
             // Atualiza o status localmente
             setSelectedSolicitation(prevState => ({
                 ...prevState,
                 status: 'Aprovado'
             }));
+
             // Fecha o modal
             closeModal();
         } catch (error) {
@@ -93,12 +103,21 @@ const Request = () => {
     const handleReject = async () => {
         try {
             // Atualiza o status do projeto no backend
-            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Rejeitado' });
+            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Reprovado' });
+            
+            // Envia a notificação por email
+            await axios.post('http://localhost:3000/api/notificacoes/enviar', {
+                id_usuario: selectedSolicitation.id_usuario,
+                id_projetoacao: selectedSolicitation.id_projetoacao,
+                status: 'Reprovado'
+            });
+    
             // Atualiza o status localmente
             setSelectedSolicitation(prevState => ({
                 ...prevState,
-                status: 'Rejeitado'
+                status: 'Reprovado'
             }));
+
             // Fecha o modal
             closeModal();
         } catch (error) {
@@ -109,11 +128,19 @@ const Request = () => {
     const handleResend = async () => {
         try {
             // Atualiza o status do projeto no backend
-            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Reenviado' });
+            await axios.put(`http://localhost:3000/api/projetosAcoes/${selectedSolicitation.id_projetoacao}`, { status: 'Reenviar' });
+            
+            // Envia a notificação por email
+            await axios.post('http://localhost:3000/api/notificacoes/enviar', {
+                id_usuario: selectedSolicitation.id_usuario,
+                id_projetoacao: selectedSolicitation.id_projetoacao,
+                status: 'Reenviar'
+            });
+            
             // Atualiza o status localmente
             setSelectedSolicitation(prevState => ({
                 ...prevState,
-                status: 'Reenviado'
+                status: 'Reenviar'
             }));
             // Fecha o modal
             closeModal();
@@ -125,7 +152,7 @@ const Request = () => {
     return (
         <LayoutAdmin>
             <ContentAdmin>
-                <Container>
+            <Container>
                     <Title>
                         Todas Solicitações
                     </Title>
@@ -139,30 +166,31 @@ const Request = () => {
                     </PainelButton>
                 </Container>
 
-                <PainelContainer>
-                    <PainelCard>
-                        {sortedSolicitations.map((solicitation, index) => (
-                            <SoliciteCard
-                                key={index}
-                                cardTitle={solicitation.nome_projetoacao}
-                                subTitle={solicitation.linguagem_artistica}
-                                cidadeTitle={solicitation.nome_espaco}
-                                status={solicitation.status}
-                                data={new Date(solicitation.data_criacao).toLocaleDateString()} // Ajuste o formato da data aqui
-                                onClick={() => openModal(solicitation)} // Passa a função openModal para o SoliciteCard
-                                statusColor={
-                                    solicitation.status === 'Em análise' ? '#ffffff' :
-                                        solicitation.status === 'Aprovado' ? '#ffffff' :
-                                            solicitation.status === 'Rejeitado' ? '#ffffff' :
-                                                solicitation.status === 'Reenviado' ? '#ffffff' :
-                                                    '#3D978F'
-                                }
-                            />
-                        ))}
-                    </PainelCard>
-                </PainelContainer>
+                    <PainelContainer>
 
-                {selectedSolicitation && (
+                        <PainelCard>
+                            {sortedSolicitations.map((solicitation, index) => (
+                                <SoliciteCard
+                                    key={index}
+                                    cardTitle={solicitation.nome_projetoacao}
+                                    subTitle={solicitation.linguagem_artistica}
+                                    cidadeTitle={solicitation.nome_espaco}
+                                    status={solicitation.status}
+                                    data={new Date(solicitation.data_criacao).toLocaleDateString()} // Ajuste o formato da data aqui
+                                    onClick={() => openModal(solicitation)} // Passa a função openModal para o SoliciteCard
+                                    statusColor={
+                                        solicitation.status === 'Em Análise' ? '#ffffff' :
+                                        solicitation.status === 'Aprovado' ? '#ffffff' :
+                                        solicitation.status === 'Reprovado' ? '#ffffff' :
+                                        solicitation.status === 'Reenviar' ? '#ffffff' :
+                                                    '#3D978F'
+                                    }
+                                />
+                            ))}
+                        </PainelCard>
+                    </PainelContainer>
+
+                    {selectedSolicitation && (
                     <Modal
                         isOpen={modalIsOpen}
                         onRequestClose={closeModal}
@@ -180,33 +208,29 @@ const Request = () => {
                                 width: '50%',
                                 maxHeight: '80%',
                                 overflow: 'auto',
-                                padding: '20px',
-                                position: 'relative',
+                                padding: '15px',
                             }
                         }}
                     >
 
-                        <div style={{ marginBottom: '10px' }}>
-                            <h3 style={{ margin: 0 }}>Detalhes do Projeto</h3>
+                        <div>
+                            <h3>Detalhes do Projeto</h3>
                             <button
                                 onClick={closeModal}
                                 style={{
-                                    position: 'absolute',
-                                    top: '12px',
-                                    right: '12px',
-                                    height: '25px',
-                                    width: '25px',
-                                    background: '#3D987F',
-                                    borderRadius: '50%',
-                                    color: '#F2F2F2',
-                                    fontSize: '16px',
-                                    border: 'none',
-                                    cursor: 'pointer',
+                                position: 'absolute',
+                                color: '#F2F2F2',
+                                backgroundColor: '#3D978F',
+                                borderRadius: '50px',
+                                width: '25px',
+                                height: '25px',
+                                marginLeft: '94%',
+                                transform: 'translate(-50%, -50%)',
                                 }}>
                                 X
                             </button>
                         </div>
-                        <div style={{ marginBottom: '20px' }}>
+                        <div style={{ marginBottom: '10px' }}>
                             <p><strong>Nome do Projeto:</strong> {selectedSolicitation.nome_projetoacao}</p>
                             <p><strong>Linguagem Artística:</strong> {selectedSolicitation.linguagem_artistica}</p>
                             <p><strong>Nome do Espaço:</strong> {selectedSolicitation.nome_espaco}</p>
@@ -218,8 +242,8 @@ const Request = () => {
                                         backgroundColor: '#3D987F',
                                         color: 'white',
                                         padding: '2px 10px',
-                                        marginLeft: '10px',
-                                        borderRadius: '8px',
+                                        marginLeft: '8px',
+                                        borderRadius: '10px',
                                         border: 'none',
                                         cursor: 'pointer',
                                         textAlign: 'center',
@@ -243,8 +267,8 @@ const Request = () => {
                                                     backgroundColor: '#3D987F',
                                                     color: 'white',
                                                     padding: '2px 10px',
-                                                    marginLeft: '10px',
-                                                    borderRadius: '8px',
+                                                    marginLeft: '8px',
+                                                    borderRadius: '10px',
                                                     border: 'none',
                                                     cursor: 'pointer',
                                                     textAlign: 'center',
@@ -259,8 +283,8 @@ const Request = () => {
                                                 backgroundColor: '#3D987F',
                                                 color: 'white',
                                                 padding: '2px 10px',
-                                                marginLeft: '7px',
-                                                borderRadius: '8px',
+                                                marginLeft: '4px',
+                                                borderRadius: '10px',
                                                 border: 'none',
                                                 cursor: 'pointer',
                                                 textAlign: 'center',
@@ -286,8 +310,8 @@ const Request = () => {
                                 </div>
                             )}
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
-                            <button onClick={handleApprove} style={{ backgroundColor: '#3D987F', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>APROVAR</button>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '30px' }}>
+                            <button onClick={handleApprove} style={{ backgroundColor: '#3D987F', color: 'white', padding: '10px 12px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>APROVAR</button>
                             <button onClick={handleReject} style={{ backgroundColor: '#FF6961', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>REJEITAR</button>
                             <button onClick={handleResend} style={{ backgroundColor: '#4974A5', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>REENVIAR</button>
                         </div>

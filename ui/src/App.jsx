@@ -8,6 +8,8 @@ import Dashboard from "./pages/Dashboard";
 import { useAuth } from "./hooks/useAuth";
 
 const App = () => {
+  const { logged, role } = useAuth();
+
   return (
     <>
       <GlobalStyles />
@@ -15,27 +17,42 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<FormLogin />} />
-          <Route path="/home" element={<ProtectedRoute role="user"><Home /></ProtectedRoute>} />
-          <Route path="/homeadmin" element={<ProtectedRoute role="admin"><HomeAdmin /></ProtectedRoute>} />
-          <Route path="/dashboard" element={<ProtectedRoute role="admin"><Dashboard /></ProtectedRoute>} />
+
+          {/* Rotas Protegidas */}
+          <Route
+            path="/home"
+            element={
+              logged && role === "user" ? (
+                <Home />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/homeadmin"
+            element={
+              logged && role === "admin" ? (
+                <HomeAdmin />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              logged && role === "admin" ? (
+                <Dashboard />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
   );
-};
-
-const ProtectedRoute = ({ children, role }) => {
-  const { logged, role: userRole } = useAuth();
-
-  if (!logged) {
-    return <Navigate to="/login" />;
-  }
-
-  if (role && userRole !== role) {
-    return <Navigate to="/login" />;
-  }
-
-  return children;
 };
 
 export default App;

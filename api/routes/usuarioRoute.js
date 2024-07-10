@@ -5,7 +5,8 @@ const {
   criarUsuario,
   atualizarUsuario,
   deletarUsuario,
-  loginUsuario
+  loginUsuario,
+  logoutUsuario
 } = require('../controller/usuarioController');
 
 const usuarioRoute = express.Router();
@@ -121,28 +122,34 @@ usuarioRoute.post('/', criarUsuario);
  * /usuarios/{id}:
  *   put:
  *     summary: Atualiza um usuário pelo ID
- *     tags: [Usuários]
+ *     tags: 
+ *       - Usuários
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID do usuário
+ *         description: ID do usuário a ser atualizado
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Usuario'
+ *             $ref: '#/components/schemas/Usuario'  # Referência ao esquema do objeto Usuario
  *     responses:
  *       200:
  *         description: Usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'  # Retorna o usuário atualizado
  *       404:
  *         description: Usuário não encontrado
  *       500:
  *         description: Erro ao atualizar usuário
  */
+
 usuarioRoute.put('/:id', atualizarUsuario);
 
 /**
@@ -194,5 +201,20 @@ usuarioRoute.delete('/:id', deletarUsuario);
  *         description: Erro ao fazer login
  */
 usuarioRoute.post('/login', loginUsuario);
+/**
+ * @swagger
+ * /usuarios/logout:
+ *   post:
+ *     summary: Realiza logout de um usuário
+ *     tags: [Usuários]
+ *     responses:
+ *       200:
+ *         description: Logout realizado com sucesso
+ *       500:
+ *         description: Erro ao fazer logout
+ */
+usuarioRoute.post('/logout', logoutUsuario);
+
+
 
 module.exports = usuarioRoute;

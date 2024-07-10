@@ -1,11 +1,12 @@
 const Usuario = require("../models/usuarioModel");
-const { validationResult } = require('express-validator');
+const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
-const { Op, json } = require('sequelize');
-const multer = require('multer'); // Importa o multer
-const upload = require('../config/multerConfig'); // Importa o middleware de upload configurado
-
-
+const multer = require('multer');
+const upload = require('../config/multerConfig');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const segredoJWT = process.env.JWT_SECRET;
+const refreshSecret = process.env.REFRESH_SECRET;
 
 const listarUsuarios = async (req, res) => {
   try {
@@ -33,7 +34,6 @@ const obterUsuarioPorId = async (req, res) => {
 
 const criarUsuario = async (req, res) => {
   try {
-    // Usar o middleware de upload para capturar os arquivos enviados
     upload.fields([
       { name: 'comprovante_residencia', maxCount: 1 },
       { name: 'documento_identificacao', maxCount: 1 },
@@ -45,24 +45,11 @@ const criarUsuario = async (req, res) => {
         return res.status(500).json({ message: 'Erro interno ao processar upload.', error: err.message });
       }
 
-      // Obter URLs dos arquivos enviados para S3
+      const { nome_completo, email, senha, telefone, genero, raca_etnia, cidade, estado } = req.body;
       const comprovante_residencia_url = req.files['comprovante_residencia'][0]?.location;
       const documento_identificacao_url = req.files['documento_identificacao'][0]?.location;
       const documento_rne_url = req.files['documento_rne']?.[0]?.location;
 
-      // Dados do usuário a serem criados no banco de dados
-      const {
-        nome_completo,
-        email,
-        senha,
-        telefone,
-        genero,
-        raca_etnia,
-        cidade,
-        estado,
-      } = req.body;
-
-      // Criar o usuário no banco de dados
       const novoUsuario = await Usuario.create({
         nome_completo,
         email,
@@ -77,12 +64,9 @@ const criarUsuario = async (req, res) => {
         documento_rne: documento_rne_url,
       });
 
-      // Retornar as URLs dos arquivos na resposta
       res.status(201).json({
         message: 'Usuário criado com sucesso.',
-        comprovante_residencia: comprovante_residencia_url,
-        documento_identificacao: documento_identificacao_url,
-        documento_rne: documento_rne_url,
+        usuario: novoUsuario,
       });
     });
   } catch (error) {
@@ -127,12 +111,12 @@ const loginUsuario = async (req, res) => {
   const { email, senha } = req.body;
 
   try {
-    // Verifica se é um login de administrador específico
     if (email === 'admin@example.com' && senha === 'admin') {
-      // Em um ambiente de desenvolvimento, você pode simplesmente retornar sucesso sem consultar o banco de dados
-      res.status(200).json({ msg: "Usuário logado", role: "admin" });
+      const token = jwt.sign({ userId: 1, role: "admin" }, segredoJWT, { expiresIn: '15m' });
+      const refreshToken = jwt.sign({ userId: 1, role: "admin" }, refreshSecret, { expiresIn: '7d' });
+
+      res.status(200).json({ message: "Login de administrador bem-sucedido", role: "admin", token, refreshToken });
     } else {
-      // Consulta no banco de dados (ou onde estiver armazenado)
       const usuario = await Usuario.findOne({
         where: {
           email: {
@@ -142,23 +126,43 @@ const loginUsuario = async (req, res) => {
       });
 
       if (!usuario) {
-        return res.status(400).json({ msg: "Usuário não registrado!" });
+        return res.status(404).json({ message: "Usuário não registrado" });
       }
 
-      const isMatch = bcrypt.compareSync(senha, usuario.senha);
-      if (isMatch) {
-        const role = usuario.role; // Assuming the role is stored in the 'role' field of the user model
-        res.status(200).json({ msg: "Usuário logado", role: "user", userId: usuario.id_usuario});
-      } else {
-        res.status(400).json({ msg: "Senha incorreta" });
+      const isMatch = await bcrypt.compare(senha, usuario.senha);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Credenciais inválidas" });
       }
+
+      const token = jwt.sign({ userId: usuario.id_usuario, role: "user" }, segredoJWT, { expiresIn: '15m' });
+      const refreshToken = jwt.sign({ userId: usuario.id_usuario, role: "user" }, refreshSecret, { expiresIn: '7d' });
+
+      res.status(200).json({ message: "Login bem-sucedido", role: "user", userId: usuario.id_usuario, token, refreshToken });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ msg: "Erro ao fazer login" });
+    console.error('Erro ao fazer login:', error);
+    res.status(500).json({ message: "Erro ao fazer login" });
   }
 };
 
+const refreshUsuario = (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(401).json({ message: 'Refresh token necessário' });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, refreshSecret);
+    const newToken = jwt.sign({ userId: decoded.userId, role: decoded.role }, segredoJWT, { expiresIn: '15m' });
+    res.status(200).json({ token: newToken });
+  } catch (e) {
+    return res.status(401).json({ message: 'Refresh token inválido' });
+  }
+};
+
+const logoutUsuario = (req, res) => {
+  res.status(200).json({ message: 'Logout bem-sucedido' });
+};
 
 module.exports = {
   listarUsuarios,
@@ -166,5 +170,7 @@ module.exports = {
   criarUsuario,
   atualizarUsuario,
   deletarUsuario,
-  loginUsuario
+  loginUsuario,
+  refreshUsuario,
+  logoutUsuario
 };

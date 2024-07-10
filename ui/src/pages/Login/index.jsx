@@ -1,59 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Image from '../../assets/logoInstituto.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { TextField, MenuItem, InputAdornment } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material'; 
 import { Container, CadastroContainer, Form, FormCadastro, Title, LoginContainer, Anchor, OverlayContainer, Overlay,
     EsquerdoPainel, DireitoPainel, Paragraph, LeftButton, SubTitle, SubTitleNoMargin, ImageContainer, Body, TitleTwo, Button } from "./styles";
-import { useAuth } from "../../hooks/useAuth"; // Assumindo que você já tem este hook implementado
+import { useAuth } from "../../hooks/useAuth";
 
 const FormLogin = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [userData, setUserData] = useState({
-        nome_completo: '',
-        email: '',
-        senha: '',
-        telefone: '',
-        genero: '',
-        raca_etnia: '',
-        cidade: '',
-        estado: '',
-        comprovante_residencia: '',
-        documento_identificacao: '',
-        documento_rne: ''
-    });
-    const navigate = useNavigate();
-    const { login: setLoggedIn, setRole, setUserId } = useAuth(); // Adicione setUserId ao seu hook useAuth se ainda não estiver lá
+  const [isLogin, setIsLogin] = useState(true);
+  const [userData, setUserData] = useState({
+    nome_completo: '',
+    email: '',
+    senha: '',
+    telefone: '',
+    genero: '',
+    raca_etnia: '',
+    cidade: '',
+    estado: '',
+    comprovante_residencia: '',
+    documento_identificacao: '',
+    documento_rne: ''
+  });
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3000/api/usuarios/login', {
-                email: userData.email,
-                senha: userData.senha
-            });
-            if (response.status === 200) {
-                const { role, userId } = response.data; // Verifique se o nome do campo retornado é 'userId'
-                localStorage.setItem('userId', userId); // Armazena o ID do usuário no localStorage
-                console.log('ID do usuário:', userId);
-                setRole(role);
-                setUserId(userId); // Atualiza o ID do usuário no contexto de autenticação
-                setLoggedIn(true);
-                if (role === 'admin') {
-                    navigate('/homeadmin');
-                } else {
-                    navigate('/home');
-                }
-            } else {
-                toast.error('Credenciais inválidas. Tente novamente.');
-            }
-        } catch (error) {
-            toast.error('Erro ao fazer login. Tente novamente.');
-        }
-    };
+  const navigate = useNavigate();
+  const { login, logged, role } = useAuth();
 
+  useEffect(() => {
+    if (logged) {
+      if (role === 'admin') {
+        navigate('/homeadmin');
+      } else {
+        navigate('/home');
+      }
+    }
+  }, [logged, role, navigate]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:3000/api/usuarios/login', {
+        email: userData.email,
+        senha: userData.senha
+      });
+
+      if (response.status === 200) {
+        const { token, role, userId } = response.data;
+        login(token, role, userId); // Atualiza o estado de autenticação no hook
+        console.log('Login bem-sucedido. Redirecionando...');
+      } else {
+        toast.error('Credenciais inválidas. Tente novamente.');
+      }
+    } catch (error) {
+      toast.error('Erro ao fazer login. Tente novamente.');
+    }
+  };
+    
     const handleCadastro = async (e) => {
         e.preventDefault();
         try {
@@ -80,9 +85,9 @@ const FormLogin = () => {
             if (response.status === 201) {
                 toast.success(
                     `Cadastro realizado com sucesso! Seja bem-vindo(a), ${response.data.nome_completo}!`,
-                    { position: 'top-left', autoClose: 3000 }
+                    { position: 'top-left', autoClose: 4000 }
                 );
-                setTimeout(() => navigate('/login'), 3000);
+                setTimeout(() => navigate('/login'), 4000);
             } else {
                 toast.error(response.data.message || 'Erro ao cadastrar usuário. Tente novamente.');
             }

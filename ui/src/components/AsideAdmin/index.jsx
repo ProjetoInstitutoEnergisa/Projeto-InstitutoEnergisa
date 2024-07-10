@@ -1,38 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { MdHome, MdDashboard } from "react-icons/md";
-import { FaBars } from "react-icons/fa";
-import { Container, MenuContainer, MenuItemLink, HamburgerButton, CloseButton } from "./styles";
+
+// Biblioteca React de Icons
+import {
+    MdHome,
+    MdDashboard,
+    MdArticle
+} from "react-icons/md";
+
+// Importando estilizações do CSS
+import { 
+    Container, 
+    MenuContainer, 
+    MenuItemLink 
+} from "./styles";
 
 const AsideAdm = () => {
     const navigate = useNavigate();
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
 
     const handleHomeClick = () => {
-        navigate('/homeadmin'); // Navegue para a página Início
-        setMenuIsOpen(false); // Fechar o menu após a navegação
+        navigate('/homeadmin'); // Navegue para a página Dashboard
     }
 
     const handleDashboardClick = () => {
         navigate('/dashboard'); // Navegue para a página Dashboard
-        setMenuIsOpen(false); // Fechar o menu após a navegação
-    }
-
-    const toggleMenu = () => {
-        setMenuIsOpen(!menuIsOpen);
     }
 
     return (
         <Container>
-            <HamburgerButton onClick={toggleMenu}>
-                <FaBars />
-            </HamburgerButton>
-            <MenuContainer isOpen={menuIsOpen}>
-                <CloseButton onClick={toggleMenu}>X</CloseButton>
+            <MenuContainer>
                 <MenuItemLink onClick={handleHomeClick}>
                     <MdHome />
                     Início
                 </MenuItemLink>
+
                 <MenuItemLink onClick={handleDashboardClick}>
                     <MdDashboard />
                     Dashboard
