@@ -115,12 +115,12 @@ const FormularioInscricao = ({ closeModal }) => {
             <Label htmlFor="linguagem_artistica">Linguagem artística da proposta:</Label>
             <Select {...register("linguagem_artistica", { required: true })} id="linguagem_artistica">
               <option value="">Selecione...</option>
-              <option value="artesCenicas">Artes Cênicas</option>
-              <option value="cinema">Cinema</option>
-              <option value="exposicao">Exposição</option>
-              <option value="musica">Música</option>
-              <option value="inovacao">Inovação</option>
-              <option value="outros">Outros</option>
+              <option value="Artes Cênicas">Artes Cênicas</option>
+              <option value="Cinema">Cinema</option>
+              <option value="Exposição">Exposição</option>
+              <option value="Música">Música</option>
+              <option value="Inovaçao">Inovação</option>
+              <option value="Outros">Outros</option>
             </Select>
             {errors.linguagem_artistica && <ErrorMessage>Linguagem artística é obrigatória.</ErrorMessage>}
             {watch("linguagem_artistica") === "outros" && (

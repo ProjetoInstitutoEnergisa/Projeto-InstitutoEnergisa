@@ -12,6 +12,9 @@ export const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export const FormTitle = styled.h3`
@@ -19,11 +22,21 @@ export const FormTitle = styled.h3`
   text-align: center;
   margin-bottom: 15px;
   letter-spacing: 1px;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const FormField = styled.div`
@@ -37,6 +50,11 @@ export const FormField = styled.div`
     min-width: 200px;
     margin: 10px;
     margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      min-width: 100%;
+      margin: 5px 0;
+    }
   }
 
   strong {
@@ -45,9 +63,9 @@ export const FormField = styled.div`
   }
   .paragrafo {
     margin-top: 5px;
-    margin: auto ;
+    margin: auto;
     font-size: 0.875rem;
-    color : #737373;
+    color: #737373;
     text-align: justify;
   }
 
@@ -62,7 +80,6 @@ export const Label = styled.label`
   display: block;
   margin-left: 10px;
   margin-right: 15px;
-
 `;
 
 export const Input = styled.input`
@@ -72,6 +89,11 @@ export const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 5px;
   color: #444;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 8px;
+  }
 `;
 
 export const TextArea = styled.textarea`
@@ -80,6 +102,10 @@ export const TextArea = styled.textarea`
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;
 
 export const Checkbox = styled.input`
@@ -111,6 +137,11 @@ export const SubmitButton = styled.button`
   &:hover {
     background-color: #3d978f;
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+  }
 `;
 
 export const Select = styled.select`
@@ -119,6 +150,10 @@ export const Select = styled.select`
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;
 
 export const CloseButton = styled.button`
@@ -130,12 +165,11 @@ export const CloseButton = styled.button`
   width: 30px;
   border-radius: 50px;
   border: none;
-  color: #F2F2F2;
+  color: #f2f2f2;
   font-size: 14px;
   cursor: pointer;
 `;
 
-// Em styles.js
 export const DisplayData = styled.div`
   padding: 10px;
   border: 1px solid #ccc;
@@ -144,4 +178,8 @@ export const DisplayData = styled.div`
   color: #444;
   background-color: #f2f2f2;
   margin-top: 5px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;

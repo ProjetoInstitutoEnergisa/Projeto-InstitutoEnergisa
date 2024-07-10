@@ -127,120 +127,173 @@ const Request = () => {
             <ContentAdmin>
                 <Container>
                     <Title>
-                        Solicitações
+                        Todas Solicitações
                     </Title>
-
-                    <PainelContainer>
-                        <Painel>
-                            <PainelButton>
-                                <SearchInput
-                                    type="text"
-                                    placeholder="Pesquisar Por Nome"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </PainelButton>
-                        </Painel>
-
-                        <PainelCard>
-                            {sortedSolicitations.map((solicitation, index) => (
-                                <SoliciteCard
-                                    key={index}
-                                    cardTitle={solicitation.nome_projetoacao}
-                                    subTitle={solicitation.linguagem_artistica}
-                                    cidadeTitle={solicitation.nome_espaco}
-                                    status={solicitation.status}
-                                    data={new Date(solicitation.data_criacao).toLocaleDateString()} // Ajuste o formato da data aqui
-                                    onClick={() => openModal(solicitation)} // Passa a função openModal para o SoliciteCard
-                                    statusColor={
-                                        solicitation.status === 'Em análise' ? '#efa02a' :
-                                        solicitation.status === 'Aprovado' ? 'green' :
-                                        solicitation.status === 'Rejeitado' ? 'red' :
-                                        solicitation.status === 'Reenviado' ? 'blue' :
-                                        '#F2F2F2' // Cor padrão
-                                    }
-                                />
-                            ))}
-                        </PainelCard>
-                    </PainelContainer>
-
-                    {selectedSolicitation && (
-                        <Modal
-                            isOpen={modalIsOpen}
-                            onRequestClose={closeModal}
-                            contentLabel="Detalhes da Solicitação"
-                            style={{
-                                content: {
-                                    color: '#3D987F',
-                                    backgroundColor: '#F2F2F2',
-                                    top: '50%',
-                                    borderRadius: '15px',
-                                    left: '50%',
-                                    right: 'auto',
-                                    bottom: 'auto',
-                                    transform: 'translate(-50%, -50%)',
-                                    width: '80%',
-                                    maxHeight: '80%',
-                                    overflow: 'auto',
-                                    padding: '12px',
-                                }
-                            }}
-                        >
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
-                                <h3>Detalhes do Projeto</h3>
-                                <button onClick={closeModal} style={{
-                                    position: 'absolute',
-                                    padding: '8px',
-                                    right: '8px',
-                                    background: 'none',
-                                    border: 'none',
-                                    color: '#3D978F',
-                                    fontSize: '20px',
-                                }}>X</button>
-                            </div>
-                            <div>
-                                <p><strong>Nome do Projeto:</strong> {selectedSolicitation.nome_projetoacao}</p>
-                                <p><strong>Linguagem Artística:</strong> {selectedSolicitation.linguagem_artistica}</p>
-                                <p><strong>Nome do Espaço:</strong> {selectedSolicitation.nome_espaco}</p>
-                                <p><strong>Status:</strong> {selectedSolicitation.status}</p>
-                                <p><strong>Data de Criação:</strong> {new Date(selectedSolicitation.data_criacao).toLocaleDateString()}</p>
-                                <p><strong>Descrição:</strong> 
-                                    <a href={selectedSolicitation.descricao_proposta} download>
-                                        <button style={{ backgroundColor: 'blue', color: 'white', padding: '2px', borderRadius: '5px' }}>
-                                            Download Descrição
-                                        </button>
-                                    </a>
-                                </p>
-                                {selectedUser && (
-                                    <div style={{ marginTop: '20px' }}>
-                                        <h3>Dados do Usuário</h3>
-                                        <p><strong>Nome Completo:</strong> {selectedUser.nome_completo}</p>
-                                        <p><strong>Email:</strong> {selectedUser.email}</p>
-                                        <p><strong>Telefone:</strong> {selectedUser.telefone}</p>
-                                        <p><strong>Gênero:</strong> {selectedUser.genero}</p>
-                                        <p><strong>Raça/Etnia:</strong> {selectedUser.raca_etnia}</p>
-                                        <p><strong>Cidade:</strong> {selectedUser.cidade}</p>
-                                        <p><strong>Estado:</strong> {selectedUser.estado}</p>
-                                        {selectedUser.comprovante_residencia && (
-                                            <p><strong>Comprovante de Residência:</strong> <a href={selectedUser.comprovante_residencia} download>Download</a></p>
-                                        )}
-                                        {selectedUser.documento_identificacao && (
-                                            <p><strong>Documento de Identificação:</strong> <a href={selectedUser.documento_identificacao} download>Download</a></p>
-                                        )}
-                                        {selectedUser.documento_rne && (
-                                            <p><strong>Documento RNE:</strong> <a href={selectedUser.documento_rne} download>Download</a></p>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
-                                <button onClick={handleApprove} style={{ backgroundColor: 'green', color: 'white', padding: '10px', borderRadius: '5px' }}>Aprovar</button>
-                                <button onClick={handleReject} style={{ backgroundColor: 'red', color: 'white', padding: '10px', borderRadius: '5px' }}>Rejeitar</button>
-                                <button onClick={handleResend} style={{ backgroundColor: 'blue', color: 'white', padding: '10px', borderRadius: '5px' }}>Reenviar</button>
-                            </div>
-                        </Modal>
-                    )}
+                    <PainelButton>
+                        <SearchInput
+                            type="text"
+                            placeholder="Pesquisar Por Nome"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </PainelButton>
                 </Container>
+
+                <PainelContainer>
+                    <PainelCard>
+                        {sortedSolicitations.map((solicitation, index) => (
+                            <SoliciteCard
+                                key={index}
+                                cardTitle={solicitation.nome_projetoacao}
+                                subTitle={solicitation.linguagem_artistica}
+                                cidadeTitle={solicitation.nome_espaco}
+                                status={solicitation.status}
+                                data={new Date(solicitation.data_criacao).toLocaleDateString()} // Ajuste o formato da data aqui
+                                onClick={() => openModal(solicitation)} // Passa a função openModal para o SoliciteCard
+                                statusColor={
+                                    solicitation.status === 'Em análise' ? '#ffffff' :
+                                        solicitation.status === 'Aprovado' ? '#ffffff' :
+                                            solicitation.status === 'Rejeitado' ? '#ffffff' :
+                                                solicitation.status === 'Reenviado' ? '#ffffff' :
+                                                    '#3D978F'
+                                }
+                            />
+                        ))}
+                    </PainelCard>
+                </PainelContainer>
+
+                {selectedSolicitation && (
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={closeModal}
+                        contentLabel="Detalhes da Solicitação"
+                        style={{
+                            content: {
+                                color: '#3D987F',
+                                backgroundColor: '#F2F2F2',
+                                top: '50%',
+                                borderRadius: '15px',
+                                left: '50%',
+                                right: 'auto',
+                                bottom: 'auto',
+                                transform: 'translate(-50%, -50%)',
+                                width: '50%',
+                                maxHeight: '80%',
+                                overflow: 'auto',
+                                padding: '20px',
+                                position: 'relative',
+                            }
+                        }}
+                    >
+
+                        <div style={{ marginBottom: '10px' }}>
+                            <h3 style={{ margin: 0 }}>Detalhes do Projeto</h3>
+                            <button
+                                onClick={closeModal}
+                                style={{
+                                    position: 'absolute',
+                                    top: '12px',
+                                    right: '12px',
+                                    height: '25px',
+                                    width: '25px',
+                                    background: '#3D987F',
+                                    borderRadius: '50%',
+                                    color: '#F2F2F2',
+                                    fontSize: '16px',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                }}>
+                                X
+                            </button>
+                        </div>
+                        <div style={{ marginBottom: '20px' }}>
+                            <p><strong>Nome do Projeto:</strong> {selectedSolicitation.nome_projetoacao}</p>
+                            <p><strong>Linguagem Artística:</strong> {selectedSolicitation.linguagem_artistica}</p>
+                            <p><strong>Nome do Espaço:</strong> {selectedSolicitation.nome_espaco}</p>
+                            <p><strong>Status:</strong> {selectedSolicitation.status}</p>
+                            <p><strong>Data de Criação:</strong> {new Date(selectedSolicitation.data_criacao).toLocaleDateString()}</p>
+                            <p><strong>Descrição:</strong>
+                                <a href={selectedSolicitation.descricao_proposta} download>
+                                    <button style={{
+                                        backgroundColor: '#3D987F',
+                                        color: 'white',
+                                        padding: '2px 10px',
+                                        marginLeft: '10px',
+                                        borderRadius: '8px',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        textAlign: 'center',
+                                    }}>
+                                        Download Descrição
+                                    </button> </a> </p>
+                            {selectedUser && (
+                                <div style={{ marginBottom: '20px' }} >
+                                    <h3 style={{ margin: 0 }} >Dados do Usuário</h3>
+                                    <p><strong>Nome Completo:</strong> {selectedUser.nome_completo}</p>
+                                    <p><strong>Email:</strong> {selectedUser.email}</p>
+                                    <p><strong>Telefone:</strong> {selectedUser.telefone}</p>
+                                    <p><strong>Gênero:</strong> {selectedUser.genero}</p>
+                                    <p><strong>Raça/Etnia:</strong> {selectedUser.raca_etnia}</p>
+                                    <p><strong>Cidade:</strong> {selectedUser.cidade}</p>
+                                    <p><strong>Estado:</strong> {selectedUser.estado}</p>
+                                    {selectedUser.comprovante_residencia && (
+                                        <p><strong>Comprovante de Residência:</strong>
+                                            <a href={selectedUser.comprovante_residencia} download>
+                                                <button style={{
+                                                    backgroundColor: '#3D987F',
+                                                    color: 'white',
+                                                    padding: '2px 10px',
+                                                    marginLeft: '10px',
+                                                    borderRadius: '8px',
+                                                    border: 'none',
+                                                    cursor: 'pointer',
+                                                    textAlign: 'center',
+
+                                                }}>
+                                                    Download
+                                                </button> </a> </p>
+                                    )}
+                                    {selectedUser.documento_identificacao && (
+                                        <p><strong>Documento de Identificação:</strong> <a href={selectedUser.documento_identificacao} download>
+                                            <button style={{
+                                                backgroundColor: '#3D987F',
+                                                color: 'white',
+                                                padding: '2px 10px',
+                                                marginLeft: '7px',
+                                                borderRadius: '8px',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                textAlign: 'center',
+                                            }}>
+                                                Download
+                                            </button> </a> </p>
+                                    )}
+                                    {selectedUser.documento_rne && (
+                                        <p><strong>Documento RNE:</strong> <a href={selectedUser.documento_rne} download>
+                                            <button style={{
+                                                backgroundColor: '#3D987F',
+                                                color: 'white',
+                                                padding: '2px 10px',
+                                                marginLeft: '10px',
+                                                borderRadius: '8px',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                textAlign: 'center',
+                                            }}>
+                                                Download
+                                            </button> </a> </p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+                            <button onClick={handleApprove} style={{ backgroundColor: '#3D987F', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>APROVAR</button>
+                            <button onClick={handleReject} style={{ backgroundColor: '#FF6961', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>REJEITAR</button>
+                            <button onClick={handleResend} style={{ backgroundColor: '#4974A5', color: 'white', padding: '10px 20px', borderRadius: '50px', border: 'none', cursor: 'pointer' }}>REENVIAR</button>
+                        </div>
+                    </Modal>
+                )}
+
             </ContentAdmin>
         </LayoutAdmin>
     );

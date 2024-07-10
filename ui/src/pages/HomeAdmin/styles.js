@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    grid-area: CT; //Informando qual a posição no grid área;
-    background-color: #F2F2F2; //Cor do Painel;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const Title = styled.h3`
@@ -12,15 +13,17 @@ export const Title = styled.h3`
 `;
 
 export const PainelContainer = styled.div`
-    height: 500px; //Altura do Painel Container;
-    width: 1200px; //Largura do Painel Container;
+    height: 32rem; 
+    width: 75rem; 
+    margin-top: 10px;
     background-color: #EBEBEB;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+    border-radius: 10px;
     margin-left: 44px;
-    padding: 15px;
+    padding: 2px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 `;
 
 export const Painel = styled.div`
@@ -34,7 +37,7 @@ export const Painel = styled.div`
 
 
 export const PainelCard = styled.div`
-    margin-top: 15px;
+    margin-top: 20px;
 `;
 
 
@@ -44,7 +47,6 @@ export const PainelButton = styled.div`
 
 
     > button {
-        background-color: #3D978F;
         padding: 8px 16px;
         border-radius: 5px;
         color: #F2F2F2;
@@ -83,15 +85,15 @@ export const Modal = styled.div`
     transition: color 0.3s ease;
 
     &:hover {
-      color: #3D978FCC;
+      color: #3D978F;
     }
   }
 
   div { /* Estilização do contêiner do input e resultados */
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    gap: 10px; /* Espaçamento entre input e cards */
+    justify-content: space-between;
+    gap: 50px; /* Espaçamento entre input e cards */
   }
 `;
 
@@ -112,3 +114,4 @@ export const SearchInput = styled.input`
     box-shadow: 0 0 5px #3D978F;
   }
 `;
+
