@@ -100,9 +100,9 @@ const enviarNotificacaoProjeto = async (req, res) => {
     }
 
     const mensagens = {
-      Aprovado: 'Seu projeto foi aprovado!',
-      Reprovado: 'Seu projeto foi reprovado.',
-      Reenviar: 'Seu projeto precisa ser reenviado para uma nova análise.'
+      Aprovado: 'Seu projeto foi aprovado! Verifique a plataforma para mais informações.',
+      Reprovado: 'Seu projeto foi reprovado. Houve pré-requisitos não atendidos.',
+      Reenviar: 'Seu projeto precisa ser reenviado para uma nova análise. Verifique as informações enviadas.'
     };
 
     const mensagem = mensagens[status];
