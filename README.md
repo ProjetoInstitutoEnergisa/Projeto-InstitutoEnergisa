@@ -3,8 +3,12 @@ Sistema de Cadastro de Projeto/Ações Culturais | Instituto Energisa
 #DESAFIO FullStack - Curso Rio Pomba Valley
 
 ##### - Visão Geral do Projeto
-      O Instituto Energisa, pertencente ao Grupo Energisa, busca incentivar a cultura brasileira, oferecendo expressões artísticas significativas e experiências transformadoras, contribuindo para o desenvolvimento cultural no Brasil. Através de Seleções de Projetos Culturais, disponibiliza espaços nos Centros Culturais com o objetivo de promover maior integração com a sociedade, fomentar o conhecimento e manifestações artísticas e realizar atividades de formação, informação e conscientização.
-      Atualmente, o Instituto recebe aproximadamente 20 projetos culturais diariamente para serem analisados. O processo é gerenciado através do Google Forms, que apresenta limitações em termos de interatividade, personalização e gerenciamento de dados.
+      O Instituto Energisa, pertencente ao Grupo Energisa, busca incentivar a cultura brasileira, oferecendo expressões artísticas 
+significativas e experiências transformadoras, contribuindo para o desenvolvimento cultural no Brasil. Através de Seleções de 
+Projetos Culturais, disponibiliza espaços nos Centros Culturais com o objetivo de promover maior integração com a sociedade, 
+fomentar o conhecimento e manifestações artísticas e realizar atividades de formação, informação e conscientização.
+      Atualmente, o Instituto recebe aproximadamente 20 projetos culturais diariamente para serem analisados. O processo é gerenciado 
+através do Google Forms, que apresenta limitações em termos de interatividade, personalização e gerenciamento de dados.
 
 ##### - Objetos e Metas
 Pensando nas necessidades do Instituto, nosso objetivo é criar um sistema que permita o cadastro e a análise dos projetos cadastrados de forma mais eficiente e organizada.
@@ -16,7 +20,8 @@ Pensando nas necessidades do Instituto, nosso objetivo é criar um sistema que p
 - Gerar Relatórios;
 - Notificação por Email.
 
-  #### - TECNOLOGIAS USADAS
+  ##### - TECNOLOGIAS USADAS
+<link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" /> <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" /> <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="40" height="40"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="40" height="40"/>
-      
+
+
