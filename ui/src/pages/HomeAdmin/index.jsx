@@ -311,14 +311,14 @@ const Request = () => {
                         </div>
                         {(selectedSolicitation.status === 'Em Análise' || selectedSolicitation.status === 'Pendente' || selectedSolicitation.status === 'Em análise') && (
                             <Painel>
-                                <PainelButton onClick={handleApprove} style={{ backgroundColor: '#3D978F', color: '#F2F2F2', borderRadius: '8px', padding: '8px 16px' }}>
-                                    Aprovar
+                                <PainelButton onClick={handleApprove} style={{ backgroundColor: '#3D978F', color: '#F2F2F2', borderRadius: '50px', padding: '6px 16px' }}>
+                                    APROVAR
                                 </PainelButton>
-                                <PainelButton onClick={handleReject} style={{ backgroundColor: '#de5353', color: '#F2F2F2', borderRadius: '8px', padding: '8px 16px' }}>
-                                    Reprovar
+                                <PainelButton onClick={handleReject} style={{ backgroundColor: '#de5353', color: '#F2F2F2', borderRadius: '50px', padding: '6px 16px' }}>
+                                    REPROVAR
                                 </PainelButton>
-                                <PainelButton onClick={handleResend} style={{ backgroundColor: '#5c6fc4', color: '#F2F2F2', borderRadius: '8px', padding: '8px 16px' }}>
-                                    Reenviar
+                                <PainelButton onClick={handleResend} style={{ backgroundColor: '#5c6fc4', color: '#F2F2F2', borderRadius: '50px', padding: '6px 16px' }}>
+                                    REENVIAR
                                 </PainelButton>
                             </Painel>
                         )}
