@@ -38,6 +38,7 @@ export const Profile = styled.div`
 
 export const LogoInst = styled.img`
     height: 60px;
+    padding-right: 1300px;
 `;
 
 export const RelativeContainer = styled.div`

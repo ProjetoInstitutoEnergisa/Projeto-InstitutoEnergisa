@@ -132,11 +132,6 @@ const FormLogin = () => {
                                 name="nome_completo"
                                 value={userData.nome_completo}
                                 onChange={handleInputChange}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '40px',
-                                    },
-                                }}
                             />
                             <TextField
                                 label="Email"
@@ -323,7 +318,6 @@ const FormLogin = () => {
                                 <TitleTwo>Já Possui Cadastro?</TitleTwo>
                             </EsquerdoPainel>
                             <DireitoPainel isLogin={isLogin}>
-                                <Title>Olá,</Title>
                                 <Paragraph>Ainda não possui uma Conta?</Paragraph>
                                 <LeftButton onClick={toggleLogin}>CADASTRAR-SE</LeftButton>
                             </DireitoPainel>

@@ -28,12 +28,11 @@ export const PainelContainer = styled.div`
 `;
 
 export const Painel = styled.div`
-    background-color: #EBEBEB;
     border-radius: 15px;
 
     display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
 `;
 
 
@@ -45,6 +44,9 @@ export const PainelCard = styled.div`
 export const PainelButton = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
+
+    cursor: pointer;
 
 
     > button {

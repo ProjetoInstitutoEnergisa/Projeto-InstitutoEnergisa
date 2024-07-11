@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { Container, Title, PainelContainer, PainelHeader, PainelButton, PainelCard, Painel, SearchInput } from './styles';
 import SoliciteCard from '../SoliciteCard';
 import { useAuth } from '../../hooks/useAuth'; // Importe o hook useAuth
+import { set } from 'react-hook-form';
 
 // Define o elemento raiz da aplicação para acessibilidade
 Modal.setAppElement('#root');
@@ -12,6 +13,8 @@ const Content = () => {
     const { userId } = useAuth(); // Obtenha o userId do contexto de autenticação
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [solicitations, setSolicitations] = useState([]);
     const [filteredSolicitations, setFilteredSolicitations] = useState([]);
 
     useEffect(() => {
@@ -20,40 +23,39 @@ const Content = () => {
         }
     }, [userId]);
 
+    useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/usuarios`);
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados do usuário:', error);
+      }
+    };
+  }, [userId]);
+  console.log(userData, setUserData);
+
     const fetchSolicitations = async () => {
         try {
             const response = await axios.get(`http://localhost:3000/api/projetosAcoes/usuario/${userId}`); // Endpoint do seu backend para listar projetos/solicitações por ID de usuário
-            setFilteredSolicitations(response.data);
+            setSolicitations(response.data);
         } catch (error) {
             console.error('Erro ao buscar solicitações:', error);
         }
     };
 
-    const handleSearch = (e) => {
-        const searchTerm = e.target.value;
-        setSearchTerm(searchTerm);
-        filterSolicitations(searchTerm);
-    };
-
-    const filterSolicitations = (searchTerm) => {
-        const filtered = filteredSolicitations.filter((solicitation) =>
-            solicitation.nome_projetoacao.toLowerCase().includes(searchTerm.toLowerCase())
+    useEffect(() => {
+        setFilteredSolicitations(
+            solicitations.filter(solicitation =>
+                solicitation.nome_projetoacao.toLowerCase().includes(searchTerm.toLowerCase())
+            )
         );
-        setFilteredSolicitations(filtered);
-    };
-
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    };
+    }, [solicitations, searchTerm]);
 
     return (
         <Container>
             <Title>
-                <h4>Olá, {`${userId.nome_completo}`}!</h4>
+                <h4>Olá, Seja bem vindo!</h4>
             </Title>
 
             <PainelContainer>
@@ -65,9 +67,9 @@ const Content = () => {
                     <PainelButton>
                         <SearchInput
                             type="text"
-                            placeholder="Buscar Por Nome"
+                            placeholder="Pesquisar"
                             value={searchTerm}
-                            onChange={handleSearch}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </PainelButton>
                 </Painel>
@@ -80,62 +82,18 @@ const Content = () => {
                             subTitle={solicitation.linguagem_artistica}
                             cidadeTitle={solicitation.nome_espaco}
                             status={solicitation.status}
-                            data={new Date(solicitation.data_criacao).toLocaleDateString()} // Adjust the date format here
+                            data={new Date(solicitation.data_criacao).toLocaleDateString()}
+                            statusColor={
+                                solicitation.status === 'Em Análise' ? '#d2c339' :
+                                solicitation.status === 'Aprovado' ? '#3D978F' :
+                                solicitation.status === 'Reprovado' ? '#a13532' :
+                                solicitation.status === 'Reenviar' ? '#3c77e4' :
+                                '#3D978F'
+                            }
                         />
                     ))}
                 </PainelCard>
             </PainelContainer>
-
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Solicitações"
-                style={{
-                    content: {
-                        color: '#3D987F',
-                        backgroundColor: '#F2F2F2',
-                        top: '50%',
-                        borderRadius: '15px',
-                        left: '50%',
-                        right: 'auto',
-                        bottom: 'auto',
-                        transform: 'translate(-50%, -50%)',
-                        width: '80%',
-                        maxHeight: '80%',
-                        overflow: 'auto',
-                        padding: '12px',
-                    }
-                }}
-            >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginLeft: '34px' }}>
-                    <h3>Suas Solicitações</h3>
-                    <button onClick={closeModal} style={{
-                        position: 'absolute',
-                        padding: '8px',
-                        right: '8px',
-                        background: 'none',
-                        border: 'none',
-                        color: '#3D978F',
-                        fontSize: '20px',
-                    }}>X</button>
-                    <SearchInput
-                        type="text"
-                        placeholder="Buscar por nome"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
-                </div>
-                {filteredSolicitations.map((solicitation, index) => (
-                    <SoliciteCard
-                        key={index}
-                        cardTitle={solicitation.nome_projetoacao}
-                        subTitle={solicitation.descricao_proposta}
-                        cidadeTitle={solicitation.cidade}
-                        status={solicitation.status}
-                        data={new Date(solicitation.data).toLocaleDateString()} // Adjust the date format here
-                    />
-                ))}
-            </Modal>
         </Container>
     );
 }

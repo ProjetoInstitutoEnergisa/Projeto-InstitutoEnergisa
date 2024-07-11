@@ -1,25 +1,23 @@
 import styled from "styled-components";
 
 export const ChartsAll = styled.div`
-  margin-right: 5rem;
-  display: flex;
-  flex-direction: column; 
   width: 100%;
-  margin-top: 2rem; 
+  margin-right: 150px;
+
 `;
 
 export const ContainerHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 5px;
   position: relative; 
 `;
 
 export const Button = styled.a`
   position: absolute;
   top: 12px; 
-  right: 12px; 
+  left: 1080px;
   color: #f2f2f2;
   background-color: #3d987f;
   cursor: pointer;

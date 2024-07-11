@@ -1,12 +1,10 @@
-// MainHeader.jsx
-
 import React, { useState, useRef, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../../hooks/useAuth'; // Verifique o caminho do arquivo useAuth
+import { useAuth } from '../../hooks/useAuth';
 import { Container, Profile, LogoInst, RelativeContainer, UserImg, Menu, MenuItem, CardPerfil, Modal, ModalContent, ModalTitle, ModalCloseButton } from "./styles";
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import photoProfile from "../../assets/mode-portrait.svg";
 import logo from "../../assets/logoInstituto.png";
@@ -16,9 +14,9 @@ const MainHeader = () => {
     const [userName, setUserName] = useState('');
     const [showModal, setShowModal] = useState(false);
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const { userId, logout } = useAuth(); // Ensure logout is available from useAuth
+    const { userId, logout } = useAuth();
     const [userData, setUserData] = useState(null);
-    const navigate = useNavigate(); // Moved useNavigate to the top level of the component
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -39,7 +37,7 @@ const MainHeader = () => {
     }, [userId]);
 
     const handleClickOutside = (e) => {
-        if (e.target !== menuRef.current && e.target !== imgRef.current) {
+        if (menuRef.current && !menuRef.current.contains(e.target) && imgRef.current && !imgRef.current.contains(e.target)) {
             setOpen(false);
         }
     };
@@ -57,6 +55,7 @@ const MainHeader = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
+        reset(); // Limpa o formulário ao fechar o modal
     };
 
     const onSubmit = async (data) => {
@@ -99,11 +98,14 @@ const MainHeader = () => {
 
     return (
         <Container>
+            <ToastContainer />
             <LogoInst src={logo} alt="Logo Instituto Energisa" />
 
             <Profile>
                 <RelativeContainer>
                     <CardPerfil>
+
+                        
                         <UserImg
                             ref={imgRef}
                             onClick={() => setOpen(!open)}
@@ -145,31 +147,31 @@ const MainHeader = () => {
                             <input
                                 {...register("nome_completo")}
                                 defaultValue={userData?.nome_completo}
-                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F"}}
+                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F" }}
                             />
                             <label>Email:</label>
                             <input
                                 {...register("email")}
                                 defaultValue={userData?.email}
-                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F"}}
+                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F" }}
                             />
                             <label>Telefone:</label>
                             <input
                                 {...register("telefone")}
                                 defaultValue={userData?.telefone}
-                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F"}}
+                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F" }}
                             />
                             <label>Gênero:</label>
                             <input
                                 {...register("genero")}
                                 defaultValue={userData?.genero}
-                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F"}}
+                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F" }}
                             />
                             <label>Senha:</label>
                             <input
                                 {...register("senha")}
                                 type="password"
-                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F"}}
+                                style={{ marginBottom: "8px", fontSize: "1rem", borderBottom: "1px solid #3D978F" }}
                             />
                             <button type="submit" style={{ backgroundColor: "#3D978F", color: "white", padding: "5px", borderRadius: "5px", border: "none" }}>Salvar</button>
                         </form>

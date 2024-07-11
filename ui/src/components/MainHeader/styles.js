@@ -12,7 +12,7 @@ export const Container = styled.div`
     align-items: center;
     padding: 0 10px;
     border-bottom: 3px solid  #3D978F;
-    height: 100%;
+
 `;
 
 export const MenuItem = styled.li`
@@ -39,6 +39,7 @@ export const Profile = styled.div`
 
 export const LogoInst = styled.img`
     height: 60px;
+    padding-right: 1300px;
 `;
 
 export const RelativeContainer = styled.div`

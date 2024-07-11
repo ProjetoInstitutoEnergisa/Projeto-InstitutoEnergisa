@@ -7,9 +7,11 @@ import AsideAdmin from "../AsideAdmin";
 import ContentAdmin from "../ContentAdmin";
 
 
+
 const Layout = ({children}) => { 
     return (
         <Grid>
+
             <MainHeaderAdmin />
             <AsideAdmin />
             <ContentAdmin>

@@ -33,6 +33,11 @@ const Dashboard = () => {
                     <Title>
                         Dashboard
                     </Title>
+
+                    <Button onClick={exportPDF}>
+                        Exportar Relatórios
+                    </Button>
+
                     <ChartsAll id="chartsContainer">
                         <div ref={pieChartRef}>
                             <PieChartComponent />
@@ -41,9 +46,6 @@ const Dashboard = () => {
                             <BarChartComponent />
                         </div>
                     </ChartsAll>
-                    <Button onClick={exportPDF}>
-                        Exportar Relatórios
-                    </Button>
                 </ContainerHeader>
             </ContentAdmin>
         </LayoutAdmin>

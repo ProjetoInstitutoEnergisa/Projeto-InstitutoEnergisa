@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { MdArticle } from "react-icons/md";
 import { Container, MenuContainer, MenuItemLink } from "./styles";
 import FormularioInscricao from "../Formulario/index";
+import { ToastContainer } from "react-toastify";
 
 const Aside = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -17,6 +18,7 @@ const Aside = () => {
 
   return (
     <Container>
+      <ToastContainer />
       <MenuContainer>
 
         <MenuItemLink onClick={openModal}>

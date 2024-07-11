@@ -4,13 +4,13 @@ import { Container } from './styles';
 
 const SoliciteCard = ({ cardTitle, subTitle, cidadeTitle, status, data, onClick, statusColor }) => {
   return (
-    <Container onClick={onClick} style={{ backgroundColor: statusColor}}>
+    <Container onClick={onClick}>
       <div >
         <span>{cardTitle}</span>
         <small>{subTitle}</small>
       </div>
       <h4>{cidadeTitle}</h4>
-      <h4>{status}</h4>
+      <h4 style={{ color: statusColor}}>{status}</h4>
       <h4>{data}</h4>
     </Container>
   );

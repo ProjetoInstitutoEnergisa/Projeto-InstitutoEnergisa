@@ -94,10 +94,11 @@ export const Select = styled.select`
 export const Title = styled.div`
   color: #545454;
   font-size: 18px;
+  padding: 10PX
 `;
 
 export const TitleTwo = styled.div`
-  color: #F2F2F2;
+  color: #EBEBEB;
   margin-top: 10px;
   font-size: 13px;
 `;
@@ -223,8 +224,5 @@ export const DireitoPainel = styled(Painel)`
 
 export const Paragraph = styled.p`
   font-size: 14px;
-  font-weight: 100;
-  line-height: 20px;
   letter-spacing: 0.5px;
-  margin: 20px 0 30px;
 `;

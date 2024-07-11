@@ -66,6 +66,8 @@ notificacaoRoute.get('/:id', obterNotificacaoPorId);
  *           schema:
  *             type: object
  *             properties:
+ *               id_projetoacao:
+ *                 type: integer
  *               mensagem:
  *                 type: string
  *               destinatario:

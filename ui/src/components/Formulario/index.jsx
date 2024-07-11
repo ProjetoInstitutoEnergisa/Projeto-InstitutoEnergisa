@@ -4,6 +4,8 @@ import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
 import { FormContainer, FormTitle, Form, FormField, Label, Input, Checkbox, CloseButton, Select, ErrorMessage, SubmitButton,
   DisplayData } from './styles';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormularioInscricao = ({ closeModal }) => {
   const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
@@ -49,23 +51,25 @@ const FormularioInscricao = ({ closeModal }) => {
         },
       });
 
-      // Exibir mensagem de sucesso e limpar o formulário após envio
-      alert('Projeto cadastrado com sucesso!');
-      closeModal(); // Fechar modal após envio
-      reset(); // Limpar campos do formulário
-      window.location.reload(); // Recarregar a página para exibir o novo projeto
+      toast.success('Projeto cadastrado com sucesso!', {
+        onClose: () => {
+          closeModal(); // Fechar o modal
+          reset();      // Limpar os campos do formulário
+          window.location.reload(); // Recarregar a página
+        }
+      });
 
     } catch (error) {
       // Tratar erros de requisição
       if (error.response) {
         console.error('Erro de validação:', error.response.data);
-        alert('Erro ao cadastrar projeto: ' + error.response.data.error);
+        toast.error('Erro ao cadastrar projeto: ' + error.response.data.error);
       } else if (error.request) {
         console.error('Erro na requisição:', error.request);
-        alert('Erro ao cadastrar projeto. Verifique sua conexão com a internet.');
+        toast.error('Erro ao cadastrar projeto. Verifique sua conexão com a internet.');
       } else {
         console.error('Erro ao configurar a requisição:', error.message);
-        alert('Erro ao cadastrar projeto. Por favor, tente novamente mais tarde.');
+        toast.error('Erro ao cadastrar projeto. Por favor, tente novamente mais tarde.');
       }
     }
   };
@@ -117,11 +121,11 @@ const FormularioInscricao = ({ closeModal }) => {
               <option value="Cinema">Cinema</option>
               <option value="Exposição">Exposição</option>
               <option value="Música">Música</option>
-              <option value="Inovaçao">Inovação</option>
+              <option value="Inovação">Inovação</option>
               <option value="Outros">Outros</option>
             </Select>
             {errors.linguagem_artistica && <ErrorMessage>Linguagem artística é obrigatória.</ErrorMessage>}
-            {watch("linguagem_artistica") === "outros" && (
+            {watch("linguagem_artistica") === "Outros" && (
               <div>
                 <Label>Especifique:</Label>
                 <Input type="text" {...register("outrolinguagem_artistica")} id="outrolinguagem_artistica" />
@@ -199,6 +203,10 @@ const FormularioInscricao = ({ closeModal }) => {
 
         <SubmitButton type="submit">ENVIAR</SubmitButton>
       </Form>
+      <ToastContainer 
+        position="top-center" // Exibe a notificação no topo central
+        autoClose={3000}      // Fecha automaticamente após 5 segundos
+      />
     </FormContainer>
   );
 };

@@ -42,7 +42,7 @@ const ProjetoAcao = sequelize.define('ProjetoAcao', {
   status: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: 'Em análise',
+    defaultValue: 'Em Análise',
   },
   data_criacao: {
     type: DataTypes.DATE,
