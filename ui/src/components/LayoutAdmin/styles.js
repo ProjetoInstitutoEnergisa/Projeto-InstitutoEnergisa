@@ -13,6 +13,5 @@ export const Grid= styled.div`
     'MH  MH'
     'AS CT';
     height: 100vh;
-    overflow-x: hidden;
-  
+    overflow-x: hidden; 
 `;

@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-dupe-keys */
+/* eslint-disable no-unused-vars */
 'use client';
 
 import React from 'react';
@@ -16,11 +19,18 @@ import {
 const salesData = [
   {
     name: 'Jan',
-    revenue: 4000,
+    AprovadoMG: 4000,
+    ReprovadoMG: 2400,
+    Reenviado: 4000,
     profit: 2400,
+    revenue: 4000,
+    // profit: 2400,
+    // revenue: 4000,
+    // profit: 2400,
+    // profit: 2400,
   },
   {
-    name: 'Feb',
+    name: 'Fev',
     revenue: 3000,
     profit: 1398,
   },
@@ -55,7 +65,7 @@ const CustomTooltip = ({ active, payload, label }) => {
         {payload.map((entry, index) => (
           <p key={`item-${index}`} className="text-sm" style={{ color: entry.color }}>
             {entry.name}:
-            <span className="ml-2">${entry.value}</span>
+            <span className="ml-2"> {entry.value}</span>
           </p>
         ))}
       </div>
@@ -82,8 +92,15 @@ const BarChartComponent = () => {
         <YAxis />
         <Tooltip content={<CustomTooltip />} />
         <Legend />
-        <Bar dataKey="revenue" fill="#2563eb" />
-        <Bar dataKey="profit" fill="#8b5cf6" />
+        <Bar dataKey="AprovadoMG" fill="#3D978F" />
+        <Bar dataKey="ReprovadoMG" fill="#FF6961" />
+        <Bar dataKey="ReenviadoMG" fill="#dedb0e" />
+        <Bar dataKey="AprovadoRJ" fill="#3D978F" />
+        <Bar dataKey="ReprovadoRJ" fill="#FF6961" />
+        <Bar dataKey="ReenviadoRJ" fill="#dedb0e" />
+        <Bar dataKey="AprovadoPB" fill="#3D978F" />
+        <Bar dataKey="ReprovadoPB" fill="#FF6961" />
+        <Bar dataKey="ReenviadoPB" fill="#dedb0e" />
       </BarChart>
     </ResponsiveContainer>
   );

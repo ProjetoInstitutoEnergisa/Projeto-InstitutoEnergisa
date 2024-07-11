@@ -7,9 +7,12 @@ import Aside from "../Aside";
 import Content from "../Content";
 
 
+
 const Layout = ({children}) => { 
     return (
+
         <Grid>
+
             <MainHeader />
             <Aside />
             <Content>

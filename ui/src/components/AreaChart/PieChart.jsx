@@ -1,6 +1,7 @@
-'use client';
-
-import React from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   PieChart,
   Pie,
@@ -10,15 +11,7 @@ import {
   Cell,
 } from 'recharts';
 
-// Dados para o gráfico de pizza
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
 // Componente CustomTooltip
 const CustomTooltip = ({ active, payload, label }) => {
@@ -41,24 +34,51 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 // Componente do gráfico de pizza
 const PieChartComponent = () => {
+  const [pieData, setPieData] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado de carregamento
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/projetosAcoes/projetosacoes/relatorios/graficos');
+        console.log('Dados recebidos:', response); // Log para verificar os dados recebidos
+        setPieData(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar os dados do gráfico:', error);
+      } finally {
+        setLoading(false); // Atualize o estado de carregamento
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // console.log('Estado de pieData:', pieData); // Log para verificar o estado de pieData
+  }, [pieData]);
+
+  if (loading) {
+    return <p>Carregando...</p>; // Mensagem de carregamento
+  }
+
   return (
     <ResponsiveContainer width="100%" height={350}>
       <PieChart>
         <Pie
-          data={pieData}
+          data={Array.isArray(pieData) ? pieData : []} // Certifique-se de que pieData é um array
           cx="50%"
-          cy="50%"
-          innerRadius={60}
-          outerRadius={100}
+          cy="25%"
+          innerRadius={50}
+          outerRadius={80}
           fill="#8884d8"
           dataKey="value"
         >
-          {pieData.map((entry, index) => (
+          {Array.isArray(pieData) && pieData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
-        <Legend />
+        <Legend layout="vertical" align="left" margin-top={100} verticalAlign="top" />
       </PieChart>
     </ResponsiveContainer>
   );

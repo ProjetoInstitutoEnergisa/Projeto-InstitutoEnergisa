@@ -1,5 +1,3 @@
-// styles.js (ou styles.jsx)
-
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -13,6 +11,10 @@ export const Container = styled.div`
     padding: 0 10px;
     border-bottom: 3px solid  #3D978F;
 
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 0 5px;
+    }
 `;
 
 export const MenuItem = styled.li`
@@ -25,35 +27,67 @@ export const MenuItem = styled.li`
     &:hover {
         background-color: #F2F2F2;
     }
+
+    @media (max-width: 768px) {
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 0.8rem;
+    }
 `;
 
 export const CardPerfil = styled.div`
     display: flex;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const Profile = styled.div`
     padding-top: 4rem;
     display: flex;
     align-items: center;
+
+    @media (max-width: 768px) {
+        padding-top: 2rem;
+    }
 `;
 
 export const LogoInst = styled.img`
     height: 60px;
     padding-right: 1300px;
+    position: relative;
+
+    @media (max-width: 768px) {
+        padding-right: 0;
+        height: 50px;
+    }
 `;
 
 export const RelativeContainer = styled.div`
     position: relative;
     display: flex;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const UserImg = styled.img`
     margin-bottom: 4rem;
     margin-right: 16px;
-    height: 2rem;
-    width: 2rem;
+    height: 2rem; 
+    width: 2rem; 
     object-fit: cover;
     cursor: pointer;
+
+    @media (max-width: 768px) {
+        margin-bottom: 2rem;
+    }
 `;
 
 export const Menu = styled.div`
@@ -66,6 +100,12 @@ export const Menu = styled.div`
     left: -8rem;
     top: 3.3rem;
     z-index: 1000;
+
+    @media (max-width: 768px) {
+        left: 0;
+        top: 2.5rem;
+        width: 8rem;
+    }
 `;
 
 export const Modal = styled.div`
@@ -80,6 +120,11 @@ export const Modal = styled.div`
     z-index: 1000;
     max-width: 80%;
     width: 500px;
+
+    @media (max-width: 768px) {
+        width: 90%;
+        max-width: none;
+    }
 `;
 
 export const ModalContent = styled.div`
@@ -97,11 +142,19 @@ export const ModalContent = styled.div`
     > label {
         font-size: 1.1rem;
         font-weight: bold;
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
     > input {
         padding: 0.5rem;
         border: 1px solid #3D978F;
         border-radius: 5px;
+
+        @media (max-width: 768px) {
+            padding: 0.4rem;
+        }
     }
     > button  {
         padding: 0.5rem;
@@ -112,12 +165,20 @@ export const ModalContent = styled.div`
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+
+        @media (max-width: 768px) {
+            padding: 0.4rem;
+        }
     }
 `;
 
 export const ModalTitle = styled.h2`
     margin-bottom: 5px;
     color: #3D978F;
+
+    @media (max-width: 768px) {
+        font-size: 1.5rem;
+    }
 `;
 
 export const ModalCloseButton = styled.button`
@@ -133,5 +194,8 @@ export const ModalCloseButton = styled.button`
     &:hover {
         background-color: #333;
     }
-`;
 
+    @media (max-width: 768px) {
+        padding: 3px 6px;
+    }
+`;
