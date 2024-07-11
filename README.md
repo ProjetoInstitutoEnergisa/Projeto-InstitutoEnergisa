@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ## Projeto O2  💻'
 Sistema de Cadastro de Projeto/Ações Culturais | Instituto Energisa
 #DESAFIO FullStack - Curso Rio Pomba Valley
@@ -34,4 +32,3 @@ npm install  | npm run dev
           
 
 
->>>>>>> 3fe025e20cc138145d3d661628ab54fbb7366e47
