@@ -27,8 +27,20 @@ Pensando nas necessidades do Instituto, nosso objetivo é criar um sistema que p
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="35" height="35" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/axios/axios-plain-wordmark.svg" width="35" height="35" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/materialui/materialui-original.svg" width="35" height="35" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" width="35" height="35" /> 
 
 ##### Para acessar nosso projeto!
-- Nos diretórios Api e Ui:
-npm install  | npm run dev
+- git clone -b master https://github.com/ProjetoInstitutoEnergisa/Projeto-InstitutoEnergisa.git
+
+- Criar .env e colocar no diretório API :
+  
+- Acessar o diretório CD Api :
+  npm install
+  npm run dev
+
+- Acessar o diretório CD Ui :
+  npm install
+  npm run dev
+
+- Banco de Dados MySql
+- Conta na Amazon S3
           
 
 
