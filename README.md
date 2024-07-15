@@ -29,9 +29,8 @@ Pensando nas necessidades do Instituto, nosso objetivo é criar um sistema que p
 ##### Para acessar nosso projeto!
 - git clone -b master https://github.com/ProjetoInstitutoEnergisa/Projeto-InstitutoEnergisa.git
 
-- Criar dotenv :
+- Criar .env e colocar no diretório API :
   
-
 - Acessar o diretório CD Api :
   npm install
   npm run dev
